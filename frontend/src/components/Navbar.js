@@ -1,6 +1,4 @@
 import home from '../images/home icon 2.png'
-import Home from '../Home'
-import { Link } from 'react-router-dom'
 
 const Navbar = () => {
     return (
