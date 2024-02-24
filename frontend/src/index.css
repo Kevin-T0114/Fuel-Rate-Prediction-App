@@ -122,3 +122,14 @@ code {
 .clientManagement button:hover {
   background-color: #0056b3;
 }
+
+.quote h1{
+  position: relative;
+  text-align: center;
+  left: 1em;
+  top: 1vh;
+}
+
+.quote{
+  text-align: center;
+}

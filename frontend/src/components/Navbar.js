@@ -5,8 +5,8 @@ const Navbar = () => {
         <div className="navbar">
             <span className="material-symbols-outlined">account_circle</span>
             <a href="/profile" className="profile">Profile</a>
-            <a href="#" className="login">Login</a>
-            <a href="#" className="register">Register</a>
+            <a href="/login" className="login">Login</a>
+            <a href="/registration" className="register">Register</a>
             <img src={home} className='home' onClick={() => window.open('/home', '_self')}></img>
         </div>
     )
