@@ -70,6 +70,10 @@ code {
   padding: 1em;
 }
 
+.smallHomeBox button:hover{
+  cursor: pointer;
+}
+
 /*bmw image*/
 .bmw{
   position: absolute;

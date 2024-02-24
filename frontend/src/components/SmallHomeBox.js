@@ -8,7 +8,7 @@ const SmallHomeBox = () => {
                 <h3>View Fuel Quote History Here!</h3>
             </div>
             <div className="fuelCalculator">
-                <Link to='/quote'>
+                <Link to='/history'>
                     <button>Click to View!</button>
                 </Link>
             </div>
