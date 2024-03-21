@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './Login.css'
+import { Link } from 'react-router-dom';
 
 
 function MatchedUser({userExist, submitted}){
@@ -80,7 +81,9 @@ function LoginForm({userCredentials}){
             <p><b>Password</b> </p>
             <input className='loginInput' type='password' placeholder='Password' value={passWord} onChange={e => setPassword(e.target.value)} required/>
             <MatchedPass userExist={userExists} correctPassword={correctPass} submitted={submitPressed}/>
-            <p><button className='loginButton' type='submit'>Login</button> <a href='/registration' className='registrationLink'>Create Account</a></p>
+            <Link to='/profile'>
+                <p><button className='loginButton' type='submit'>Login</button> <a href='/registration' className='registrationLink'>Create Account</a></p>
+            </Link>
         </form>
     );
 }
