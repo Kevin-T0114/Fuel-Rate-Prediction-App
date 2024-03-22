@@ -49,17 +49,17 @@
     box-sizing: border-box;
 }
 
-.registrationLink{
+.loginLink{
     margin-left: 5px;
     box-sizing: border-box;
 }
 
-.registrationLink:any-link{
+.loginLink:any-link{
     color: blue;
     box-sizing: border-box;
 }
 
-.registrationLink:hover{
+.loginLink:hover{
     filter: opacity(60%);
     box-sizing: border-box;
 }

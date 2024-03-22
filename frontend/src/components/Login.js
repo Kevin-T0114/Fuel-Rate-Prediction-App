@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './Login.css'
-import { Link } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 
 function MatchedUser({userExist, submitted}){
@@ -33,6 +33,7 @@ function LoginForm({userCredentials}){
     const [submitPressed, setSubmitted] = useState(false);
     let existingUser = false;
     let correctPassword = false;
+    const navigate = useNavigate();
 
     function verification(){
         if(userName === 'Adam'){
@@ -56,7 +57,7 @@ function LoginForm({userCredentials}){
     function completeLogin(){
         if(existingUser){
             if(correctPassword){
-                alert('Login complete!'); {/* LINKPROFILE MANAGEMENT */}
+                navigate('/profile');
             }
             else{
                 setPassword('');
@@ -81,9 +82,11 @@ function LoginForm({userCredentials}){
             <p><b>Password</b> </p>
             <input className='loginInput' type='password' placeholder='Password' value={passWord} onChange={e => setPassword(e.target.value)} required/>
             <MatchedPass userExist={userExists} correctPassword={correctPass} submitted={submitPressed}/>
-            <Link to='/profile'>
-                <p><button className='loginButton' type='submit'>Login</button> <a href='/registration' className='registrationLink'>Create Account</a></p>
-            </Link>
+            <button className='loginButton' type='submit'>Login</button>
+            <a href='/registration' className='registrationLink'>Create Account</a>
+            
+            
+            
         </form>
     );
 }

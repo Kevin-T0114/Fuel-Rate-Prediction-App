@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import './Registration.css'
 
@@ -31,6 +32,7 @@ function RegisterForm({userCredentials, setUserCredentials}){
     const [userExists, setUserExists] = useState(false);
     const [submitPressed, setSubmitted] = useState(false);
     let existingUser = false;
+    const navigate = useNavigate()
 
     function checkUser(){
         if(userName === 'Adam'){
@@ -45,8 +47,8 @@ function RegisterForm({userCredentials, setUserCredentials}){
 
     function match(){
         if(passWord === vfyPassword){
-            alert('Registration complete!'); {/*LINK BACK TO LOGIN PAGE */}
             setMatchPass(true);
+            navigate('/login')
         }
         else{
             setPassword('');
@@ -73,9 +75,9 @@ function RegisterForm({userCredentials, setUserCredentials}){
             <p className='rePass'><b>Re-enter Password</b></p> 
             <input className='registrationInput' type='text' placeholder='Re-enter Password' value={vfyPassword} onChange={e => setVfyPassword(e.target.value)} required/>
             <PasswordVerify takenUser={userExists} matched={matchPass} submitted={submitPressed} />
-            <Link to='/login'>
-                <button className='registrationButton' type='submit'>Register</button>
-            </Link>
+            <button className='registrationButton' type='submit'>Register</button> 
+            <a href='/Login' className='loginLink'>Return to Login</a>
+
         </form>
     );
 }
