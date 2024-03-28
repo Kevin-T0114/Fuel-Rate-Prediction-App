@@ -24,7 +24,7 @@ function ProfileForm({ userProfile, setUserProfile }) {
     };
 
     try {
-      const response = await fetch('http://localhost:8080/api/profile/update', {
+      const response = await fetch('/api/profile/update', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
