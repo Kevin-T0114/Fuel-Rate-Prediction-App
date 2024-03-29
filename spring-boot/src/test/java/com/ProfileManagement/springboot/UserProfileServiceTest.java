@@ -21,7 +21,7 @@ public class UserProfileServiceTest {
 		userProfile.setCity("New York");
 		userProfile.setState("NY");
 		userProfile.setZipcode("10001");
-		userProfile.setProfileCompleted(true);
+		userProfile.setProfileCompleted(false);
 
 		UserProfile updatedProfile = userProfileService.updateProfile(userProfile);
 
