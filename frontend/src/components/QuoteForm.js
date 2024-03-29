@@ -84,6 +84,22 @@ const QuoteForm = () => {
             amountDue = (gallon * suggestedPrice).toFixed(2);
             setSuggest(suggestedPrice);
             setAmount(amountDue);
+
+            const QuoteRec = {
+                Gallons: String(gallon),
+                Address: deliveryAddress,
+                Date: deliveryDate,
+                Price: String(suggest),
+                Due: String(amount)
+            }
+            try { 
+                axios.post('/api/form/result', QuoteRec)
+                    .then(res => {
+                        console.log(res.data)
+                    })
+            } catch (error) {
+                console.error(error.response.data);     
+            }
         }
         return (
             <form method="post" onSubmit={handleSubmit}>
