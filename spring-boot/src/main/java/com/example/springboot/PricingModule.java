@@ -32,9 +32,14 @@ public class PricingModule {
 	@CrossOrigin(origins = "http://localhost:3000/form")
 	@PostMapping("/result")
 	public String getQuotes(@RequestBody Map<String, String> payLoad){
+		if (((String)payLoad.get("Gallons")).equals("") || ((String)payLoad.get("Address")).equals("") || ((String)payLoad.get("Date")).equals("") || ((String)payLoad.get("Price")).equals("") || ((String)payLoad.get("Due")).equals("")) {
+			return "fields not filled";
+		}
 		Quote newQuote = new Quote((String)payLoad.get("Gallons"), (String)payLoad.get("Address"), (String)payLoad.get("Date"), (String)payLoad.get("Price"), (String)payLoad.get("Due"));
 		return newQuote.toString();
 	}
+
+	public Quote myQuote = new Quote();
 
 	class Quote {
 	
@@ -51,6 +56,9 @@ public class PricingModule {
 		this.Date = Date;
 		this.Price = Price;
 		this.Due = Due;
+	}
+
+	public Quote() {
 	}
 
 	public Long getId() {
@@ -111,6 +119,7 @@ public class PricingModule {
 			", Due='" + Due + '\'' +
 			'}';
 	}
-}
+	}
+	
 }
 

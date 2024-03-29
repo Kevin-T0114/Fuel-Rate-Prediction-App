@@ -89,8 +89,8 @@ const QuoteForm = () => {
                 Gallons: String(gallon),
                 Address: deliveryAddress,
                 Date: deliveryDate,
-                Price: String(suggest),
-                Due: String(amount)
+                Price: String(suggestedPrice),
+                Due: String(amountDue)
             }
             try { 
                 axios.post('/api/form/result', QuoteRec)
