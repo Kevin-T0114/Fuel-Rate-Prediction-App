@@ -23,10 +23,6 @@ public class ProfileController {
         this.userProfileService = userProfileService;
     }
 
-    @GetMapping
-    public String hello() {
-        return userProfileService.hello();
-    }
     
 
     @PostMapping("/update")
