@@ -1,9 +1,9 @@
-package com.example.springboot.Registration;
+package com.Login;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
-public class Registration {
+public class Login {
 
     @NotNull(message = "The username field should not be empty")
     @NotEmpty(message = "The username field should not be empty")
@@ -13,20 +13,17 @@ public class Registration {
     @NotEmpty(message = "The password field should not be empty")
     private String passWord;
 
-    @NotNull(message = "The password verification field should not be empty")
-    @NotEmpty(message = "The password verification field should not be empty")
-    private String vfyPassword;
-
     private Boolean userExists;
+    private Boolean correctPass;
 
-    public Registration() {
+    public Login() {
     }
 
-    public Registration(String userName, String passWord, String vfyPassword, Boolean userExists) {
+    public Login(String userName, String passWord, Boolean userExists, Boolean correctPass) {
         this.userName = userName;
         this.passWord = passWord;
-        this.vfyPassword = vfyPassword;
         this.userExists = userExists;
+        this.correctPass = correctPass;
     }
 
     public String getuserName() {
@@ -45,20 +42,20 @@ public class Registration {
         this.passWord = passWord;
     }
 
-    public String getvfyPassword() {
-        return this.vfyPassword;
-    }
-
-    public void setvfyPassword(String vfyPassword) {
-        this.vfyPassword = vfyPassword;
-    }
-
     public Boolean isuserExists() {
         return this.userExists;
     }
 
     public void setuserExists(Boolean userExists) {
         this.userExists = userExists;
+    }
+
+    public Boolean iscorrectPass() {
+        return this.correctPass;
+    }
+
+    public void setcorrectPass(Boolean correctPass) {
+        this.correctPass = correctPass;
     }
 
 }

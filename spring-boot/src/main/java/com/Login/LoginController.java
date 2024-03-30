@@ -1,4 +1,4 @@
-package com.example.springboot.Login;
+package com.Login;
 
 import org.springframework.web.bind.annotation.RestController;
 

@@ -1,4 +1,4 @@
-package com.example.springboot.Registration;
+package com.Registration;
 
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.beans.factory.annotation.Autowired;

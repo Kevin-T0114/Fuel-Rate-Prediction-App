@@ -1,4 +1,4 @@
-package com.example.springboot.Registration;
+package com.Registration;
 
 import java.util.stream.Collectors;
 

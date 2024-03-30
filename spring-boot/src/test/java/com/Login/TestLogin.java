@@ -1,4 +1,4 @@
-package com.example.springboot.Login;
+package com.Login;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
