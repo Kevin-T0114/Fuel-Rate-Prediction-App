@@ -22,6 +22,7 @@ function ProfileForm({ userProfile, setUserProfile }) {
       zipcode
     };
     setUserProfile(updatedUserProfile);
+    alert('Profile updated successfully');
   };
 
   const usStates = [
@@ -29,6 +30,7 @@ function ProfileForm({ userProfile, setUserProfile }) {
     'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK',
     'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'
   ];
+  
   return (
     <div className='clientManagement'>
       <h1>Client Management</h1>
