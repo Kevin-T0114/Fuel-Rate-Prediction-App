@@ -10,6 +10,9 @@ function MatchedUser({userExist, submitted}){
     if(!userExist){
         return <p className='incorrectText'>User not found; Please try again</p>
     }
+    else{
+        return;
+    }
 }
 
 function MatchedPass({userExist, correctPassword, submitted}){
@@ -28,60 +31,99 @@ function MatchedPass({userExist, correctPassword, submitted}){
 function LoginForm({userCredentials}){
     const [userName, setUsername] = useState('');
     const [passWord, setPassword] = useState('');
-    const [userExists, setUserExists] = useState(false);
-    const [correctPass, setCorrectPass] = useState(false);
     const [submitPressed, setSubmitted] = useState(false);
-    let existingUser = false;
-    let correctPassword = false;
+    const [userDoesExist, setUserDoesExist] = useState(false);
+    const [passCorrect, setPassCorrect] = useState(false);
+    let userExists = false;
+    let correctPass = false;
     const navigate = useNavigate();
 
-    function verification(){
-        if(userName === 'Adam'){
-            existingUser = true;
-            setUserExists(existingUser);
-        }
-        else{
-            existingUser = false;
-            setUserExists(existingUser);
-        }
-        if(passWord === 'Yes'){
-            correctPassword = true;
-            setCorrectPass(correctPassword);
-        }
-        else{
-            correctPassword = false;
-            setCorrectPass(correctPassword);
-        }
-    }
+    // function verification(){
+    //     if(userName === 'Adam'){
+    //         existingUser = true;
+    //         setUserExists(existingUser);
+    //     }
+    //     else{
+    //         existingUser = false;
+    //         setUserExists(existingUser);
+    //     }
+    //     if(passWord === 'Yes'){
+    //         correctPassword = true;
+    //         setCorrectPass(correctPassword);
+    //     }
+    //     else{
+    //         correctPassword = false;
+    //         setCorrectPass(correctPassword);
+    //     }
+    // }
 
     function completeLogin(){
-        if(existingUser){
-            if(correctPassword){
+        if(userExists){
+            if(correctPass){
                 navigate('/profile');
             }
             else{
                 setPassword('');
             }
         }
-        else if(!correctPassword){
+        else if(!correctPass){
             setPassword('');
         }
     }
 
 
     return(
-        <form className='loginForm' onSubmit={e => {
+        <form className='loginForm' onSubmit={async e => {
             e.preventDefault();
             setSubmitted(true);
-            verification();
+            //verification();
+            const loginInfo = {
+                userName,
+                passWord,
+                userExists,
+                correctPass
+            };
+            try{
+                const res = await fetch('/api/v1/Login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(loginInfo),
+                    }
+                );
+                if(!res.ok){
+                    throw(Error(res.statusText));
+                }
+            }
+            catch(error){
+                console.error(error);
+                console.error('fetch request unsuccessful!')
+            }
+            try{  //preparing for a get request from the database
+                const res2 = await fetch('/api/v1/Login')
+                if(!res2.ok){
+                    throw(Error(res2.statusText));
+                }
+                const data = await res2.json();  
+                console.log(data);
+                userExists = data.userExists;
+                correctPass = data.correctPass;
+                setUserDoesExist(userExists);
+                setPassCorrect(correctPass);
+            }
+            catch(error){
+                console.error(error);
+                console.error('fetch request unsuccessful!')
+            }
             completeLogin();
         }}>
             <p><b>Username</b></p> 
             <input className='loginInput' type='text' placeholder='Username' value={userName} onChange={e => setUsername(e.target.value)} required/>
-            <MatchedUser userExist={userExists} submitted={submitPressed}/>
+            <MatchedUser userExist={userDoesExist} submitted={submitPressed}/>
             <p><b>Password</b> </p>
             <input className='loginInput' type='password' placeholder='Password' value={passWord} onChange={e => setPassword(e.target.value)} required/>
-            <MatchedPass userExist={userExists} correctPassword={correctPass} submitted={submitPressed}/>
+            <MatchedPass userExist={userDoesExist} correctPassword={passCorrect} submitted={submitPressed}/>
             <button className='loginButton' type='submit'>Login</button>
             <a href='/registration' className='registrationLink'>Create Account</a>
             
