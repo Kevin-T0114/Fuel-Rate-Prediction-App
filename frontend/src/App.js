@@ -19,7 +19,7 @@ function App() {
           <Route path='/registration' element={<Register/>}/>
           <Route path='/login' element={<Login/>}/>
           <Route path='/history' element={<QuoteHistory/>}/>
-          <Route path='form' element={<QuoteForm/>}/>
+          <Route path='/form' element={<QuoteForm/>}/>
         </Routes>
       </BrowserRouter>
     </div>
