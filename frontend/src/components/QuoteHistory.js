@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Quote from './Quote';
 import './QuoteHistory.css';
 
 function CreateTable(userDetails){
@@ -6,6 +7,8 @@ function CreateTable(userDetails){
     let date = today.getDate();
     let month = today.getMonth() + 1;
     let year = today.getFullYear();
+    let data = userDetails.userDetails.quotes
+    console.log(data)
     return(
         <table className='historyTable'>
             <caption>
@@ -21,27 +24,9 @@ function CreateTable(userDetails){
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <th scope="row">6</th>
-                    <td>12345 ADDRESS LN</td>
-                    <td>06/05/2003</td>
-                    <td>$$$</td>
-                    <td>$$$$</td>
-                </tr>
-                <tr>
-                    <th scope="row">10</th>
-                    <td>12345 ADDRESS LN</td>
-                    <td>08/04/2004</td>
-                    <td>$$$</td>
-                    <td>$$$$</td>
-                </tr>
-                <tr>
-                    <th scope="row">80</th>
-                    <td>12345 ADDRESS LN</td>
-                    <td>03/24/2005</td>
-                    <td>$$$</td>
-                    <td>$$$$</td>
-                </tr>
+                {data.map((data) => (
+                    <Quote key={data.id} quote={data}/>
+                ))}
             </tbody>
         </table>
     );
@@ -50,18 +35,30 @@ function CreateTable(userDetails){
  export default function QuoteHistory(userCredentials){
 
     const [historyRequested, setRequest] = useState(false);
+    const [error, setError] = useState(null)
+    const [purchases, setPurchases] = useState([])
 
-    function onHistoryRequest(userCredentials){
-        setRequest(true);
+    const connection = async(e) => {
+        e.preventDefault()
+        const response = await fetch("/api/quotes")
+        const json = await response.json()
+        if (!response.ok) {
+            setError(json.error)
+            console.log('unsuccessful connection')
+        }
+        if (response.ok){
+            setPurchases(json)
+            setRequest(true)
+        }
     }
 
     return(
         <div className='pageStyle'>
             <h1>Quote History</h1>
-            <button className='showButton' onClick= {() => onHistoryRequest(userCredentials)}>
+            <button className='showButton' onClick= {connection}>
                 Show History
             </button>
-            {historyRequested && <CreateTable userDetails={userCredentials}/>}
+            {historyRequested && <CreateTable userDetails={purchases}/>}
         </div>
     );
  }
