@@ -1,12 +1,11 @@
-﻿import { useEffect, useState } from 'react';
-import axios from 'axios';
-const QuoteForm = () => {
+import { useState } from 'react';
 
+const QuoteForm = () => {
     let deliveryDate = "0-0-2000";
     let gallon;
     let suggestedPrice = 0;
     let amountDue = 0;
-    let deliveryAddress = "";
+    let deliveryAdress;
     function GallonRequest() {
 
         return (
@@ -19,19 +18,7 @@ const QuoteForm = () => {
     }
 
     function DeliveryAddress() {
-        const [address, setAddress] = useState();
-        const getData = async () => {
-            const { data } = await axios.get("/api/form/location");
-            setAddress(data);
-            deliveryAddress = data;
-        };
-        useEffect(() => {
-            getData();
-        }, []);
-        
-        console.log(deliveryAddress);
-        //document.getElementById('element').innerHTML = deliveryAddress;
-        return (<label>{address} </label>);
+        return (<label>Texas</label>);
         //imported from clients profile
     }
 
@@ -54,15 +41,6 @@ const QuoteForm = () => {
     function FormRequest() {
         const [amount, setAmount] = useState('');
         const [suggest, setSuggest] = useState('');
-        const [price, setPrice] = useState();
-        const getData = async () => {
-            const { data } = await axios.get("/api/form/price");
-            setPrice(data);
-            deliveryAddress = data;
-        };
-        useEffect(() => {
-            getData();
-        }, []);
         function handleSubmit(e) {
             // Prevent the browser from reloading the page
             e.preventDefault();
@@ -71,35 +49,22 @@ const QuoteForm = () => {
             const form = e.target;
             const formData = new FormData(form);
 
-            
+            // You can pass formData as a fetch body directly:
+            fetch('/some-api', { method: form.method, body: formData });
+
             // Or you can work with it as a plain object:
             const formJson = Object.fromEntries(formData.entries());
             //console.log(formJson);
-
+            
             console.log(formJson.DeliveryDate);
             console.log(formJson.Gallons);
-            suggestedPrice = price;
+            suggestedPrice = 37;
             gallon = formJson.Gallons;
+            deliveryAdress = "Texas";
             deliveryDate = formJson.DeliveryDate;
             amountDue = (gallon * suggestedPrice).toFixed(2);
             setSuggest(suggestedPrice);
             setAmount(amountDue);
-
-            const QuoteRec = {
-                Gallons: String(gallon),
-                Address: deliveryAddress,
-                Date: deliveryDate,
-                Price: String(suggestedPrice),
-                Due: String(amountDue)
-            }
-            try { 
-                axios.post('/api/form/result', QuoteRec)
-                    .then(res => {
-                        console.log(res.data)
-                    })
-            } catch (error) {
-                console.error(error.response.data);     
-            }
         }
         return (
             <form method="post" onSubmit={handleSubmit}>
@@ -132,7 +97,6 @@ const QuoteForm = () => {
             <FormRequest />            
         </div> 
     );
-    
 }
 
 export default QuoteForm;
