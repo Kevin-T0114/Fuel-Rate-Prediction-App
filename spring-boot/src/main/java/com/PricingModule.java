@@ -1,4 +1,4 @@
-package com.example.springboot;
+package com;
 
 import java.util.*;
 import org.springframework.boot.SpringApplication;
