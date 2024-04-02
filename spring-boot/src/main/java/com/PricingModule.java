@@ -1,16 +1,12 @@
 package com;
 
 import java.util.*;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpStatus;
 
 //change name of file
 @CrossOrigin(origins = "http://localhost:3000/form")
@@ -48,7 +44,7 @@ public class PricingModule {
 
 	public Quote myQuote = new Quote();
 
-	class Quote {
+	public class Quote {
 
 		private Long id;
 		private String Gallons;
