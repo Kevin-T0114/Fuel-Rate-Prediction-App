@@ -11,6 +11,7 @@ public class UserProfileService {
         //Implement Logic
         // This method should interact with the database or any other storage mechanism
         //For right now i plan on just returning the given profile as is.
+        //This should be done in assignment 4
 
         logger.info("Updating profile: {}", userProfile.toString());
 
