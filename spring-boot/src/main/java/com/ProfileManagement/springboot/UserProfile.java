@@ -2,12 +2,26 @@ package com.ProfileManagement.springboot;
 
 import org.springframework.validation.annotation.Validated;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 
 @Validated
+@Entity
+@Table(name = "user_profile")
 public class UserProfile {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_profile_seq")
+    @SequenceGenerator(name = "user_profile_seq", sequenceName = "user_profile_sequence", allocationSize = 1)
+
+    private Long id;
 
     @NotBlank(message = "Full name is required")
     @Size(max = 50, message = "Full name must be less than or equal to 50 characters")
@@ -33,6 +47,9 @@ public class UserProfile {
     private boolean profileCompleted;
 
     // Getters and setters
+    public Long getID(){
+        return id;
+    }
     public String getFullName() {
         return fullName;
     }
