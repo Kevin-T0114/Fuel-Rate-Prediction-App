@@ -38,28 +38,12 @@ function LoginForm({userCredentials}){
     let correctPass = false;
     const navigate = useNavigate();
 
-    // function verification(){
-    //     if(userName === 'Adam'){
-    //         existingUser = true;
-    //         setUserExists(existingUser);
-    //     }
-    //     else{
-    //         existingUser = false;
-    //         setUserExists(existingUser);
-    //     }
-    //     if(passWord === 'Yes'){
-    //         correctPassword = true;
-    //         setCorrectPass(correctPassword);
-    //     }
-    //     else{
-    //         correctPassword = false;
-    //         setCorrectPass(correctPassword);
-    //     }
-    // }
 
     function completeLogin(){
         if(userExists){
             if(correctPass){
+                sessionStorage.setItem("username", userName);
+                sessionStorage.setItem("auth", true);
                 navigate('/profile');
             }
             else{
@@ -76,7 +60,6 @@ function LoginForm({userCredentials}){
         <form className='loginForm' onSubmit={async e => {
             e.preventDefault();
             setSubmitted(true);
-            //verification();
             const loginInfo = {
                 userName,
                 passWord,
