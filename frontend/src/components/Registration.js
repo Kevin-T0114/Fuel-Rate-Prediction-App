@@ -37,6 +37,7 @@ function RegisterForm(){
         <form className='registrationForm' onSubmit={ async e => {
             e.preventDefault();
             setSubmitted(true);
+            setUserDoesExist(false);
             if(passWord === vfyPassword){
                 console.log("passwords match!");
                 setMatchPass(true);
@@ -57,7 +58,7 @@ function RegisterForm(){
                         throw(Error(res.statusText));
                     }
                     const data = await res.json();
-                    userDoesNotExist = data;
+                    userDoesNotExist = data[0];
                     console.log(userDoesNotExist);
                 }
                 catch(error){

@@ -9,7 +9,7 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
-@Entity
+@Entity(name = "Account")
 @Table(name = "account")
 @Validated
 public class Registration {

@@ -46,4 +46,26 @@ public class RegistrationService { // figure out what to return
         return true; // return true if username is not in database
     }
 
+    public Boolean checkUsername(String user) {
+        Optional<Registration> reg = registrationRepository.findById(user);
+        if (reg.isPresent()) {
+            return true;
+        }
+        return false;
+    }
+
+    public Boolean checkPassword(Registration registration) {
+        Optional<Registration> reg = registrationRepository.findById(registration.getuserName());
+        System.out.println("poggies");
+        System.out.println(registration.getpassWord());
+        if (reg.isPresent()) {
+            Registration r = reg.get();
+            String encryptedPassword = encryptPassword(registration.getpassWord());
+            if (encryptedPassword.equals(r.getpassWord())) {
+                return true;
+            }
+            return false;
+        }
+        return false;
+    }
 }
