@@ -1,6 +1,13 @@
 package com.ProfileManagement.springboot;
 
 import org.springframework.stereotype.Service;
+
+import com.Registration.Registration;
+import com.Registration.RegistrationRepository;
+import com.Registration.RegistrationService;
+
+import jakarta.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.ListCrudRepository;
 import org.slf4j.Logger;
@@ -13,16 +20,32 @@ public class UserProfileService {
 
     private static final Logger logger = LoggerFactory.getLogger(UserProfileService.class);
     private final UserProfileRepository userProfileRepository;
+    private final RegistrationRepository registrationRepository;
 
 
     @Autowired
-    public UserProfileService(UserProfileRepository userProfileRepository) {
+    public UserProfileService(UserProfileRepository userProfileRepository, RegistrationRepository registrationRepository) {
         this.userProfileRepository = userProfileRepository;
+        this.registrationRepository = registrationRepository;
+    }
+    @PostConstruct
+    public void init(){
+        populateUserProfilesFromRegistrations();
+    }
+    
+    public void populateUserProfilesFromRegistrations(){
+        List<Registration> Registered = registrationRepository.findAll();
+        for(Registration registration : Registered){
+            UserProfile userProfile = new UserProfile();
+            userProfile.setUsername(registration.getuserName());
+            logger.info("New Username Registered: {}", userProfile);
+            userProfileRepository.save(userProfile);
+        }
+
     }
 
     public UserProfile manageProfile(UserProfile userProfile) {
         UserProfile P = new UserProfile();
-
         if (!userProfileRepository.findAll().isEmpty()) {
             UserProfile Dummy = createProfile(userProfile);
             List<UserProfile> ProList = userProfileRepository.findAll();

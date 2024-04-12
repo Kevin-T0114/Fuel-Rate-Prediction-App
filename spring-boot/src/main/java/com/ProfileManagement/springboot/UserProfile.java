@@ -29,7 +29,7 @@ public class UserProfile {
     // "user_profile_sequence", allocationSize = 1)
     // @Column(name = "user_id")
 
-    private Long userId;
+    //private Long userId;
 
     @Id
     @Column(name = "username")
