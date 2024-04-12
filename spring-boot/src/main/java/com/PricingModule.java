@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 
 //change name of file
 @CrossOrigin(origins = "http://localhost:3000/form")
@@ -14,19 +16,41 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequestMapping("/api/form")
 
 public class PricingModule {
+
+	@Autowired
+    private JdbcTemplate jdbcTemplate;
+	private String user;
+
 	@CrossOrigin(origins = "http://localhost:3000/form")
 	@GetMapping("/location")
 	public String GetLocation() {
-		String location = "Texas";
-		return location;
+		String sql = "SELECT address FROM profile WHERE username = '" + user + "'";
+		try {
+			return jdbcTemplate.queryForObject(sql, String.class);
+		} catch (Exception e) {
+			return "";
+		}
 	}
 
 	@CrossOrigin(origins = "http://localhost:3000/form")
 	@GetMapping("/price")
 	public float MakePrice() {
 		// pulltheprice
+		String loc = GetLocation();
+		if (GetLocation().substring(loc.length() - 2).equals("TX")) {
+			//do the tx calc 
+		} else {
+			//do the other calc
+		}
 		float price = 37;
 		return price;
+	}
+
+	@CrossOrigin(origins = "http://localhost:3000/form")
+	@PostMapping("/user")
+	public String getUser(@RequestBody Map<String, String> payLoad) {
+		user = (String) payLoad.get("User");
+		return user;
 	}
 
 	@CrossOrigin(origins = "http://localhost:3000/form")
@@ -39,9 +63,19 @@ public class PricingModule {
 		}
 		Quote newQuote = new Quote((String) payLoad.get("Gallons"), (String) payLoad.get("Address"),
 				(String) payLoad.get("Date"), (String) payLoad.get("Price"), (String) payLoad.get("Due"));
+		
+		user = (String) payLoad.get("User");
+
+		String sql = "INSERT INTO quote (delivery_date, gallons_requested, price_per_gallon, total, address) VALUES (" + "DATE('" + newQuote.getDate() + "'), " + newQuote.getGallons() + ", " + newQuote.getPrice() + ", " + newQuote.getDue() + ", '" + newQuote.getAddress() + "')";
+
+		int rows = jdbcTemplate.update(sql);
+        if (rows > 0) {
+            System.out.println("A new row has been inserted.");
+        }
+
 		return newQuote.toString();
 	}
-
+	
 	public Quote myQuote = new Quote();
 
 	public class Quote {
