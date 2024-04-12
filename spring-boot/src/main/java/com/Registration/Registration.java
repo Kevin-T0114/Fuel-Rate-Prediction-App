@@ -14,7 +14,7 @@ import jakarta.validation.constraints.NotNull;
 @Validated
 public class Registration {
 
-    @Id
+    @Id // Primary key annotation
     @NotNull(message = "The username field should not be empty")
     @NotEmpty(message = "The username field should not be empty")
     @Column(name = "username", nullable = false, columnDefinition = "TEXT", updatable = false)
