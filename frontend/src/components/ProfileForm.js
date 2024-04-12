@@ -1,6 +1,7 @@
 // ProfileForm.js
 import React, { useState } from 'react';
 
+
 function ProfileForm({ userProfile, setUserProfile }) {
   const [fullName, setFullName] = useState('');
   const [address1, setAddress1] = useState('');
@@ -8,9 +9,14 @@ function ProfileForm({ userProfile, setUserProfile }) {
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
   const [zipcode, setZipcode] = useState('');
+  let username = sessionStorage.getItem("username");
+
+
+ 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
   
     const updatedUserProfile = {
       ...userProfile,
@@ -20,7 +26,8 @@ function ProfileForm({ userProfile, setUserProfile }) {
       address2,
       city,
       state,
-      zipcode
+      zipcode,
+      username
     };
   
     try {

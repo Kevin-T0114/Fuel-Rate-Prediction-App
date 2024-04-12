@@ -39,9 +39,6 @@ public class Registration {
         this.passWord = passWord;
     }
 
-    @OneToOne(mappedBy = "registration", cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
-    private UserProfile profile;
 
     public String getuserName() {
         return this.userName;
