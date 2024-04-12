@@ -28,7 +28,7 @@ function MatchedPass({userExist, correctPassword, submitted}){
 }
 
 
-function LoginForm({userCredentials}){
+function LoginForm({}){
     const [userName, setUsername] = useState('');
     const [passWord, setPassword] = useState('');
     const [submitPressed, setSubmitted] = useState(false);
@@ -42,15 +42,19 @@ function LoginForm({userCredentials}){
     function completeLogin(){
         if(userExists){
             if(correctPass){
+                setPassCorrect(true);
                 sessionStorage.setItem("username", userName);
                 sessionStorage.setItem("auth", true);
                 navigate('/profile');
             }
             else{
+                setPassCorrect(false);
                 setPassword('');
             }
         }
         else if(!correctPass){
+            setUserDoesExist(false);
+            setPassCorrect(false);
             setPassword('');
         }
     }
@@ -60,11 +64,10 @@ function LoginForm({userCredentials}){
         <form className='loginForm' onSubmit={async e => {
             e.preventDefault();
             setSubmitted(true);
+            setUserDoesExist(true);
             const loginInfo = {
                 userName,
                 passWord,
-                userExists,
-                correctPass
             };
             try{
                 const res = await fetch('/api/v1/Login', {
@@ -78,27 +81,15 @@ function LoginForm({userCredentials}){
                 if(!res.ok){
                     throw(Error(res.statusText));
                 }
+                const data = await res.json();
+                userExists = data[0];
+                correctPass = data[1];
             }
             catch(error){
                 console.error(error);
                 console.error('fetch request unsuccessful!')
             }
-            try{  //preparing for a get request from the database
-                const res2 = await fetch('/api/v1/Login')
-                if(!res2.ok){
-                    throw(Error(res2.statusText));
-                }
-                const data = await res2.json();  
-                console.log(data);
-                userExists = data.userExists;
-                correctPass = data.correctPass;
-                setUserDoesExist(userExists);
-                setPassCorrect(correctPass);
-            }
-            catch(error){
-                console.error(error);
-                console.error('fetch request unsuccessful!')
-            }
+            
             completeLogin();
         }}>
             <p><b>Username</b></p> 
