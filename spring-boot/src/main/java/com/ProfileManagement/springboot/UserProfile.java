@@ -21,7 +21,7 @@ public class UserProfile {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_profile_seq")
     @SequenceGenerator(name = "user_profile_seq", sequenceName = "user_profile_sequence", allocationSize = 1)
 
-    private Long id;
+    private Long ID;
 
     @NotBlank(message = "Full name is required")
     @Size(max = 50, message = "Full name must be less than or equal to 50 characters")
@@ -48,7 +48,8 @@ public class UserProfile {
 
     // Getters and setters
     public Long getID(){
-        return id;
+        System.out.println("ID value " + ID);
+        return ID;
     }
     public String getFullName() {
         return fullName;

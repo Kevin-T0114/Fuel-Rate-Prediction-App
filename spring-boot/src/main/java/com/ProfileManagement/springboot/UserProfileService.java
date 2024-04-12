@@ -18,37 +18,89 @@ public class UserProfileService {
         this.userProfileRepository = userProfileRepository;
     }
 
-
-    public UserProfile updateProfile(UserProfile userProfile){
-        try{
+    public UserProfile createProfile(UserProfile userProfile) {
+        try {
             UserProfile savedProfile = userProfileRepository.save(userProfile);
-            logger.info("Profile Updated: {}", savedProfile);
+            logger.info("New Profile Created: {}", savedProfile);
             return savedProfile;
-        } catch(Exception e){
-            logger.error("Error Updating Profile: {}", e.getMessage());
-
+        } catch(Exception e) {
+            logger.error("Error creating profile: {}", e.getMessage());
             return null;
         }
     }
+
+    public UserProfile updateProfile(UserProfile userProfile){
+        try {
+            if(userProfile.getID() != null){
+                UserProfile existingProfile = userProfileRepository.findById(userProfile.getID()).orElseThrow(() -> new IllegalArgumentException("User profile not found"));
+                existingProfile.setFullName(userProfile.getFullName());
+                existingProfile.setAddress1(userProfile.getAddress1());
+                existingProfile.setAddress2(userProfile.getAddress2());
+                existingProfile.setCity(userProfile.getCity());
+                existingProfile.setState(userProfile.getState());
+                existingProfile.setZipcode(userProfile.getZipcode());
+                existingProfile.setProfileCompleted(userProfile.isProfileCompleted());
+                UserProfile savedProfile = userProfileRepository.save(existingProfile);
+                logger.info("Profile Updated: {}", savedProfile);
+                return savedProfile;
+            } 
+            else {
+                throw new IllegalArgumentException("ID MUST NOT BE NULL");
+            }
+        } catch(Exception e) {
+            logger.error("Error updating profile: {}", e.getMessage());
+            return null;
+        }
+    }
+
+    // public UserProfile updateProfile(UserProfile userProfile){
+    //     try{
+    //         Long id = userProfile.getID();
+    //         if(id != null){
+    //             //If the profile exists, update it with new data
+    //             UserProfile existingProfile = userProfileRepository.findById(userProfile.getID()).orElseThrow(() -> new IllegalArgumentException("User profile not found"));
+    //             existingProfile.setFullName(userProfile.getFullName());
+    //             existingProfile.setAddress1(userProfile.getAddress1());
+    //             existingProfile.setAddress2(userProfile.getAddress2());
+    //             existingProfile.setCity(userProfile.getCity());
+    //             existingProfile.setState(userProfile.getState());
+    //             existingProfile.setZipcode(userProfile.getZipcode());
+    //             existingProfile.setProfileCompleted(userProfile.isProfileCompleted());
+
+    //             UserProfile savedProfile = userProfileRepository.save(existingProfile);
+    //             logger.info("Profile Updated: {}", savedProfile);
+    //             return savedProfile;
+    //         } 
+    //         else{
+    //             //If profile does not exist then make one
+    //             UserProfile savedProfile = userProfileRepository.save(userProfile);
+    //             logger.info("New Profile Created: {}", savedProfile);
+    //             return savedProfile;
+    //         }
+    //     } catch(Exception e){
+    //         logger.error("Error Updating Profile Because there is no ID: {}", e.getMessage());
+
+    //         return null;
+    //     }
+    // }
+
     
-    public UserProfile getUserProfileById(Long id) {
-        // Implement logic to retrieve user profile by ID
-        return userProfileRepository.findById(id).orElse(null);
+
+    public UserProfile getUserProfileById(Long ID) {
+        return userProfileRepository.findById((ID)).orElse(null);
     }
 
     public List<UserProfile> getAllUserProfiles() {
-        // Implement logic to retrieve all user profiles
+
         return userProfileRepository.findAll();
     }
 
-    public void deleteUserProfile(Long id) {
-        // Implement logic to delete a user profile by ID
+    public void deleteUserProfile(Long ID) {
         try {
-            userProfileRepository.deleteById(id);
-            logger.info("Profile deleted: {}", id);
+            userProfileRepository.deleteById(ID);
+            logger.info("Profile deleted: {}", ID);
         } catch (Exception e) {
             logger.error("Error deleting profile: {}", e.getMessage());
-            // Handle exception or log error based on your requirement
         }
     }
 

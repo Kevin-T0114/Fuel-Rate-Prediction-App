@@ -37,10 +37,11 @@ function ProfileForm({ userProfile, setUserProfile }) {
         setUserProfile(updatedUserProfile);
       } else {
         const errorData = await response.json();
-        alert('Error updating profile: ' + errorData.message);
+        console.log('Error data:', errorData);
+        alert('Error updating profile generated from FrontEnd : ' + errorData.message);
       }
     } catch (error) {
-      console.error('Error updating profile:', error);
+      console.error('Error updating profile generated from FrontEnd:', error);
       alert('Error updating profile. Please try again later.');
     }
   };
