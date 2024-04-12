@@ -1,6 +1,7 @@
 package com.ProfileManagement.springboot;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -23,10 +24,23 @@ public class ProfileController {
         this.userProfileService = userProfileService;
     }
 
+
+    
+
+    
     @PostMapping("/update")
-    public UserProfile updateProfile(@Valid @RequestBody UserProfile userProfile) {
-        System.out.println("Recieved request to update profile: " + userProfile);
-        return userProfileService.updateProfile(userProfile);
+    public UserProfile updateProfile(@Valid @RequestBody UserProfile userProfile){
+        System.out.println("Recieved request to update/create profile: ");
+        return userProfileService.manageProfile(userProfile);
     }
+        
+   
+    
+    
+       
 
 }
+    
+
+
+
