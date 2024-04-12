@@ -26,16 +26,14 @@ public class UserProfileService {
     public UserProfile manageProfile(UserProfile userProfile) {
         UserProfile P = new UserProfile();
         if (!userProfileRepository.findByUsername(userProfile.getUsername()).isEmpty()) {
-           
             List<UserProfile> ProList = userProfileRepository.findByUsername(userProfile.getUsername());
             P = ProList.get(0);
             updateProfile(P, userProfile);
-            
 
         } else {
             System.out.println("UserName: " + userProfile.getUsername());
             createProfile(userProfile);
-            // List<UserProfile> ProList = userProfileRepository.findAll();
+           
         }
         return P;
 
