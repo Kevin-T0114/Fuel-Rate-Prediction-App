@@ -1,23 +1,27 @@
 package com.Registration;
 
-import java.util.stream.Collectors;
+import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import lombok.RequiredArgsConstructor;
-
 @Service
-@RequiredArgsConstructor
 public class RegistrationService { // figure out what to return
 
-    private final RegistrationValidator validator;
+    private final RegistrationRepository registrationRepository;
 
-    public String checkRegistration(Registration registration) {
-        var violations = validator.validate(registration);
-        if (!violations.isEmpty()) {
-            return violations.stream().collect(Collectors.joining("\n"));
+    @Autowired
+    public RegistrationService(RegistrationRepository registrationRepository) {
+        this.registrationRepository = registrationRepository;
+    }
+
+    public Boolean addNewAccount(Registration registration) {
+        Optional<Registration> reg = registrationRepository.findById(registration.getuserName());
+        if (reg.isPresent()) {
+            return false; // return false if username is already in database
         }
-        return "Success!";
+        registrationRepository.save(registration);
+        return true; // return true if username is not in database
     }
 
 }

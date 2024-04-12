@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import './Registration.css'
 
 function UserTaken({takenUser, submitted}){
@@ -24,71 +23,61 @@ function PasswordVerify({takenUser, matched, submitted}){
     }  
 }
 
-function RegisterForm({userCredentials, setUserCredentials}){
+function RegisterForm(){
     const [userName, setUsername] = useState('');
     const [passWord, setPassword] = useState('');
     const [vfyPassword, setVfyPassword] = useState('');
     const [matchPass, setMatchPass] = useState(false);
     const [submitPressed, setSubmitted] = useState(false);
     const [userDoesExist, setUserDoesExist] = useState(false);
-    let userExists = false;
+    let userDoesNotExist = false;
     const navigate = useNavigate()
-
-    function match(){
-        if(passWord === vfyPassword){
-            setMatchPass(true);
-            navigate('/login')
-        }
-        else{
-            setPassword('');
-            setVfyPassword('');
-            setMatchPass(false);
-        }
-    }
 
     return(
         <form className='registrationForm' onSubmit={ async e => {
             e.preventDefault();
             setSubmitted(true);
-            const registrationInfo = {
-                userName,
-                passWord,
-                vfyPassword,
-                userExists
-            };
-            try{
-                const res = await fetch('/api/v1/Registration', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(registrationInfo),
+            if(passWord === vfyPassword){
+                console.log("passwords match!");
+                setMatchPass(true);
+                const registrationInfo = {
+                    userName,
+                    passWord,
+                };
+                try{      //get userexists answer from the post request
+                    const res = await fetch('/api/v1/Registration', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(registrationInfo),
+                        }
+                    );
+                    if(!res.ok){
+                        throw(Error(res.statusText));
                     }
-                );
-                if(!res.ok){
-                    throw(Error(res.statusText));
+                    const data = await res.json();
+                    userDoesNotExist = data;
+                    console.log(userDoesNotExist);
+                }
+                catch(error){
+                    console.error(error);
+                    console.error('fetch request unsuccessful!')
+                }
+                if(userDoesNotExist){
+                    navigate('/login')
+                }
+                else{
+                    setPassword('');
+                    setVfyPassword('');
+                    setUsername('');
+                    setUserDoesExist(true);
                 }
             }
-            catch(error){
-                console.error(error);
-                console.error('fetch request unsuccessful!')
-            }
-            try{  //preparing for a get request from the database
-                const res2 = await fetch('/api/v1/Registration')
-                if(!res2.ok){
-                    throw(Error(res2.statusText));
-                }
-                const data = await res2.json();  
-                console.log(data);
-                userExists = data.userExists;
-                setUserDoesExist(userExists);
-            }
-            catch(error){
-                console.error(error);
-                console.error('fetch request unsuccessful!')
-            }
-            if(!userExists){
-                match();
+            else{
+                setPassword('');
+                setVfyPassword('');
+                setMatchPass(false);
             }
         }}>
             <p className='user'> <b>Username</b> </p>

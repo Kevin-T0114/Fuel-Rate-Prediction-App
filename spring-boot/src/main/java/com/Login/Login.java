@@ -1,8 +1,11 @@
 package com.Login;
 
+import org.springframework.validation.annotation.Validated;
+
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
+@Validated
 public class Login {
 
     @NotNull(message = "The username field should not be empty")
