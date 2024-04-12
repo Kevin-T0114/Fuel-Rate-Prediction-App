@@ -14,7 +14,6 @@ public class UserProfileService {
     private static final Logger logger = LoggerFactory.getLogger(UserProfileService.class);
     private final UserProfileRepository userProfileRepository;
 
-    private final UserProfileRepository userProfileRepository;
 
     @Autowired
     public UserProfileService(UserProfileRepository userProfileRepository) {
