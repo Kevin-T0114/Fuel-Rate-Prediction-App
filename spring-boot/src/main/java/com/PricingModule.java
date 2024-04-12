@@ -24,7 +24,7 @@ public class PricingModule {
 	@CrossOrigin(origins = "http://localhost:3000/form")
 	@GetMapping("/location")
 	public String GetLocation() {
-		String sql = "SELECT address FROM profile WHERE username = '" + user + "'";
+		String sql = "SELECT state FROM user_profile WHERE username = '" + user + "'";
 		try {
 			return jdbcTemplate.queryForObject(sql, String.class);
 		} catch (Exception e) {
@@ -66,12 +66,24 @@ public class PricingModule {
 		
 		user = (String) payLoad.get("User");
 
-		String sql = "INSERT INTO quote (delivery_date, gallons_requested, price_per_gallon, total, address) VALUES (" + "DATE('" + newQuote.getDate() + "'), " + newQuote.getGallons() + ", " + newQuote.getPrice() + ", " + newQuote.getDue() + ", '" + newQuote.getAddress() + "')";
-
-		int rows = jdbcTemplate.update(sql);
-        if (rows > 0) {
-            System.out.println("A new row has been inserted.");
-        }
+		String sql = "SELECT user_id FROM user_profile WHERE username = '" + user + "'";
+		Integer idNum = new Integer(0);
+		try {
+			idNum = jdbcTemplate.queryForObject(sql, Integer.class);
+		} catch (Exception e) {
+			System.out.println("Failed to read idNum");
+			idNum = 0;
+		}
+		newQuote.setId(idNum.longValue());
+		sql = "INSERT INTO quote (delivery_date, gallons_requested, price_per_gallon, total, address, user_id) VALUES (" + "DATE('" + newQuote.getDate() + "'), " + newQuote.getGallons() + ", " + newQuote.getPrice() + ", " + newQuote.getDue() + ", '" + newQuote.getAddress() + "', " + idNum + ")";
+		try {
+			int rows = jdbcTemplate.update(sql);
+			if (rows > 0) {
+				System.out.println("A new row has been inserted.");
+			}
+		} catch (Exception e) {
+			System.out.println("Row failed to insert");
+		}
 
 		return newQuote.toString();
 	}
@@ -80,7 +92,7 @@ public class PricingModule {
 
 	public class Quote {
 
-		private Long id;
+		private long id;
 		private String Gallons;
 		private String Address;
 		private String Date;
@@ -98,11 +110,11 @@ public class PricingModule {
 		public Quote() {
 		}
 
-		public Long getId() {
+		public long getId() {
 			return id;
 		}
 
-		public void setId(Long id) {
+		public void setId(long id) {
 			this.id = id;
 		}
 

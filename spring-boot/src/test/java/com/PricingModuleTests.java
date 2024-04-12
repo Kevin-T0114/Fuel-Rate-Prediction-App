@@ -13,6 +13,14 @@ class PricingModuleTests {
 	@Test
 	public String PricingTest() {
 		PricingModule myPricingModule = new PricingModule();
+
+		Map<String, String> myMap2 = new HashMap<>();
+		myMap2.put("User", "");
+
+		String userTest = myPricingModule.getUser(myMap2);
+
+		boolean use = ("".equals(userTest));
+
 		String locationTest = myPricingModule.GetLocation();
 		assertEquals(locationTest, myPricingModule.GetLocation());
 		float priceTest = myPricingModule.MakePrice();
@@ -26,10 +34,11 @@ class PricingModuleTests {
 		myMap.put("Date", "2");
 		myMap.put("Price", "3");
 		myMap.put("Due", "4");
+		myMap.put("User", "");
 
 		String getQuoteTest = myPricingModule.getQuotes(myMap);
 
-		boolean z = ("Quote{id=null, Gallons='0', Address='1', Date='2', Price='3', Due='4'}".equals(getQuoteTest));
+		boolean z = ("Quote{id=0, Gallons='0', Address='1', Date='2', Price='3', Due='4'}".equals(getQuoteTest));
 
 		myPricingModule.myQuote.setId((long) 0);
 		myPricingModule.myQuote.setGallons("0");
@@ -51,6 +60,7 @@ class PricingModuleTests {
 		boolean d = ("0".equals(date));
 		boolean e = ("0".equals(price));
 		boolean f = ("0".equals(due));
+		
 
 		String result = "";
 		if (l) {
@@ -98,6 +108,12 @@ class PricingModuleTests {
 		} else {
 			result = result + "0";
 		}
+		if (use) {
+			result = result + "1";
+		} else {
+			result = result + "0";
+		}
+		assertEquals("1111111111", result);
 		return result;
 	}
 
