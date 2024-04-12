@@ -12,6 +12,7 @@ import java.util.Optional;
 public class UserProfileService {
     
     private static final Logger logger = LoggerFactory.getLogger(UserProfileService.class);
+    private final UserProfileRepository userProfileRepository;
 
 
     @Autowired
