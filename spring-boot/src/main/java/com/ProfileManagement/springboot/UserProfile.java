@@ -2,11 +2,16 @@ package com.ProfileManagement.springboot;
 
 import org.springframework.validation.annotation.Validated;
 
+import com.Registration.Registration;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.MapsId;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
@@ -17,17 +22,18 @@ import jakarta.validation.constraints.Size;
 @Table(name = "user_profile")
 public class UserProfile {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_profile_seq")
-    @SequenceGenerator(name = "user_profile_seq", sequenceName = "user_profile_sequence", allocationSize = 1)
-    @Column(name = "user_id")
+    // @Id
+    // @GeneratedValue(strategy = GenerationType.SEQUENCE, generator =
+    // "user_profile_seq")
+    // @SequenceGenerator(name = "user_profile_seq", sequenceName =
+    // "user_profile_sequence", allocationSize = 1)
+    // @Column(name = "user_id")
 
     private Long userId;
 
-    @NotBlank(message ="Username is required")
+    @Id
     @Column(name = "username")
     private String username;
-
 
     @NotBlank(message = "Full name is required")
     @Size(max = 50, message = "Full name must be less than or equal to 50 characters")
@@ -52,13 +58,18 @@ public class UserProfile {
     private String zipcode;
     private boolean profileCompleted;
 
-    // Getters and setters
-    public Long getID(){
-        //System.out.println("ID value " + id);
-        return userId;
-    }
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "username")
+    private Registration registration;
 
-    public String getUsername(){
+    // Getters and setters
+    // public Long getID() {
+    // // System.out.println("ID value " + id);
+    // return userId;
+    // }
+
+    public String getUsername() {
         return username;
     }
 
@@ -92,11 +103,11 @@ public class UserProfile {
 
     // Setters
 
-    public void setID(Long userId){
-        this.userId = userId;
-    }
+    // public void setID(Long userId) {
+    // this.userId = userId;
+    // }
 
-    public void setUsername(String username){
+    public void setUsername(String username) {
         this.username = username;
     }
 
