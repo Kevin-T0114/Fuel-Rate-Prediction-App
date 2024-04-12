@@ -2,9 +2,15 @@ package com.Registration;
 
 import org.springframework.validation.annotation.Validated;
 
+import com.ProfileManagement.springboot.UserProfile;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -14,7 +20,7 @@ import jakarta.validation.constraints.NotNull;
 @Validated
 public class Registration {
 
-    @Id // Primary key annotation
+    @Id
     @NotNull(message = "The username field should not be empty")
     @NotEmpty(message = "The username field should not be empty")
     @Column(name = "username", nullable = false, columnDefinition = "TEXT", updatable = false)
@@ -32,6 +38,10 @@ public class Registration {
         this.userName = userName;
         this.passWord = passWord;
     }
+
+    @OneToOne(mappedBy = "registration", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private UserProfile profile;
 
     public String getuserName() {
         return this.userName;

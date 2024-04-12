@@ -24,23 +24,10 @@ public class ProfileController {
         this.userProfileService = userProfileService;
     }
 
-
-    
-
-    
     @PostMapping("/update")
-    public UserProfile updateProfile(@Valid @RequestBody UserProfile userProfile){
+    public UserProfile updateProfile(@Valid @RequestBody UserProfile userProfile) {
         System.out.println("Recieved request to update/create profile: ");
         return userProfileService.manageProfile(userProfile);
     }
-        
-   
-    
-    
-       
 
 }
-    
-
-
-
