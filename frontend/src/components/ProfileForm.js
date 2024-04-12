@@ -11,7 +11,7 @@ function ProfileForm({ userProfile, setUserProfile }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     const updatedUserProfile = {
       ...userProfile,
       profileCompleted: true,
@@ -22,7 +22,7 @@ function ProfileForm({ userProfile, setUserProfile }) {
       state,
       zipcode
     };
-
+  
     try {
       const response = await fetch('/api/profile/update', {
         method: 'POST',
@@ -31,17 +31,17 @@ function ProfileForm({ userProfile, setUserProfile }) {
         },
         body: JSON.stringify(updatedUserProfile),
       });
-
+  
       if (response.ok) {
         alert('Profile updated successfully');
         setUserProfile(updatedUserProfile);
       } else {
         const errorData = await response.json();
         console.log('Error data:', errorData);
-        alert('Error updating profile generated from FrontEnd : ' + errorData.message);
+        alert('Error updating profile: ' + errorData.message);
       }
     } catch (error) {
-      console.error('Error updating profile generated from FrontEnd:', error);
+      console.error('Error updating profile:', error);
       alert('Error updating profile. Please try again later.');
     }
   };

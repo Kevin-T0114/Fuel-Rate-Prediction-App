@@ -12,4 +12,5 @@ public interface UserProfileRepository extends JpaRepository<UserProfile, Long> 
     List<UserProfile> findByState(String state);
     List<UserProfile> findByZipcode(String zipcode);
     List<UserProfile> findByProfileCompleted(boolean profileCompleted);
+    List<UserProfile> findByID(Long id);
 }

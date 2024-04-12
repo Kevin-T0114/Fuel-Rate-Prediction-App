@@ -49,15 +49,8 @@ public class ProfileController {
     
     @PostMapping("/update")
     public UserProfile updateProfile(@Valid @RequestBody UserProfile userProfile){
-        if(userProfile.getID() == null){
-            System.out.println("Recieved request to create profile: ");
-            return userProfileService.createProfile(userProfile);
-        }
-        else{
-            System.out.println("Received request to update profile: " + userProfile);
-            return userProfileService.updateProfile(userProfile);
-        }
-        
+        System.out.println("Recieved request to update/create profile: ");
+        return userProfileService.manageProfile(userProfile);
     }
         
    
