@@ -8,20 +8,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.List;
 
-
 @Service
 public class UserProfileService {
 
     private static final Logger logger = LoggerFactory.getLogger(UserProfileService.class);
     private final UserProfileRepository userProfileRepository;
 
-
-
     @Autowired
     public UserProfileService(UserProfileRepository userProfileRepository) {
         this.userProfileRepository = userProfileRepository;
     }
-
 
     public UserProfile manageProfile(UserProfile userProfile) {
         UserProfile P = new UserProfile();
@@ -33,7 +29,7 @@ public class UserProfileService {
         } else {
             System.out.println("UserName: " + userProfile.getUsername());
             createProfile(userProfile);
-           
+
         }
         return P;
 
@@ -69,6 +65,24 @@ public class UserProfileService {
         } catch (Exception e) {
             logger.error("Error updating profile: {}", e.getMessage());
             return null;
+        }
+    }
+
+    public UserProfile getUserProfileById(Long ID) {
+        return userProfileRepository.findById((ID)).orElse(null);
+    }
+
+    public List<UserProfile> getAllUserProfiles() {
+
+        return userProfileRepository.findAll();
+    }
+
+    public void deleteUserProfile(Long ID) {
+        try {
+            userProfileRepository.deleteById(ID);
+            logger.info("Profile deleted: {}", ID);
+        } catch (Exception e) {
+            logger.error("Error deleting profile: {}", e.getMessage());
         }
     }
 

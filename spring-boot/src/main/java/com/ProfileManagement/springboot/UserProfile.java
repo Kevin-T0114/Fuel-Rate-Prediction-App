@@ -2,16 +2,11 @@ package com.ProfileManagement.springboot;
 
 import org.springframework.validation.annotation.Validated;
 
-import com.Registration.Registration;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.MapsId;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
@@ -26,9 +21,14 @@ public class UserProfile {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_profile_seq")
     @SequenceGenerator(name = "user_profile_seq", sequenceName = "user_profile_sequence", allocationSize = 1)
     @Column(name = "user_id")
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_profile_seq")
+    @SequenceGenerator(name = "user_profile_seq", sequenceName = "user_profile_sequence", allocationSize = 1)
+    @Column(name = "user_id")
 
     private Long userId;
 
+    @NotBlank(message = "Username is required")
     @Column(name = "username")
     private String username;
 
@@ -55,12 +55,10 @@ public class UserProfile {
     private String zipcode;
     private boolean profileCompleted;
 
-    
-
     // Getters and setters
     public Long getID() {
-    // System.out.println("ID value " + id);
-    return userId;
+        // System.out.println("ID value " + id);
+        return userId;
     }
 
     public String getUsername() {
@@ -95,11 +93,10 @@ public class UserProfile {
         return profileCompleted;
     }
 
-
     // Setters
 
     public void setID(Long userId) {
-    this.userId = userId;
+        this.userId = userId;
     }
 
     public void setUsername(String username) {
