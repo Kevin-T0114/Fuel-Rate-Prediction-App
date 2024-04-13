@@ -1,18 +1,18 @@
 package com.ProfileManagement.springboot;
 
 import org.springframework.stereotype.Service;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.ListCrudRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserProfileService {
 
     private static final Logger logger = LoggerFactory.getLogger(UserProfileService.class);
-    private UserProfileRepository userProfileRepository;
+    private final UserProfileRepository userProfileRepository;
 
     @Autowired
     public UserProfileService(UserProfileRepository userProfileRepository) {
@@ -21,16 +21,14 @@ public class UserProfileService {
 
     public UserProfile manageProfile(UserProfile userProfile) {
         UserProfile P = new UserProfile();
-        if (userProfileRepository.findAll().isEmpty()) {
-            UserProfile Dummy = createProfile(userProfile);
-            List<UserProfile> ProList = userProfileRepository.findAll();
+        if (!userProfileRepository.findByUsername(userProfile.getUsername()).isEmpty()) {
+            List<UserProfile> ProList = userProfileRepository.findByUsername(userProfile.getUsername());
             P = ProList.get(0);
-            System.out.println(P.getCity());
+            updateProfile(P, userProfile);
+
         } else {
-            List<UserProfile> ProList = userProfileRepository.findByCity("Houston");
-            P = ProList.get(0);
-            UserProfile Dummy = updateProfile(P, userProfile);
-            System.out.println(P.getCity());
+            System.out.println("UserName: " + userProfile.getUsername());
+            createProfile(userProfile);
 
         }
         return P;
@@ -64,7 +62,6 @@ public class UserProfileService {
 
             // userProfileRepository.findById(userProfile.getID()).orElseThrow(() -> new
             // IllegalArgumentException("User profile not found"));
-
         } catch (Exception e) {
             logger.error("Error updating profile: {}", e.getMessage());
             return null;

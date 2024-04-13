@@ -21,6 +21,10 @@ public class UserProfile {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_profile_seq")
     @SequenceGenerator(name = "user_profile_seq", sequenceName = "user_profile_sequence", allocationSize = 1)
     @Column(name = "user_id")
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_profile_seq")
+    @SequenceGenerator(name = "user_profile_seq", sequenceName = "user_profile_sequence", allocationSize = 1)
+    @Column(name = "user_id")
 
     private Long userId;
 

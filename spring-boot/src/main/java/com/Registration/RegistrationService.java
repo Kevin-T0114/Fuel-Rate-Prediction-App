@@ -7,6 +7,8 @@ import java.security.MessageDigest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ProfileManagement.springboot.UserProfileRepository;
+
 @Service
 public class RegistrationService { // figure out what to return
 

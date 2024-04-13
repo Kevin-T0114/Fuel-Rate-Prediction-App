@@ -21,4 +21,7 @@ public interface UserProfileRepository extends JpaRepository<UserProfile, Long> 
     List<UserProfile> findByProfileCompleted(boolean profileCompleted);
 
     List<UserProfile> findByID(Long id);
+
+    List<UserProfile> findByUsername(String username);
+
 }
