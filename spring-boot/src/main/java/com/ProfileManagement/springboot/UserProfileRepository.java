@@ -2,6 +2,8 @@ package com.ProfileManagement.springboot;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.GetMapping;
+
 import java.util.List;
 
 @Repository
@@ -22,6 +24,7 @@ public interface UserProfileRepository extends JpaRepository<UserProfile, Long> 
 
     List<UserProfile> findByID(Long id);
 
-    List<UserProfile> findByUsername(String username);
+    //@GetMapping("/username/{user}")
+    List<UserProfile> findByUsername(String user);
 
 }

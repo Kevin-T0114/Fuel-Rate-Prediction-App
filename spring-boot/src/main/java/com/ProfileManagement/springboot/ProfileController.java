@@ -1,5 +1,7 @@
 package com.ProfileManagement.springboot;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,5 +31,4 @@ public class ProfileController {
         System.out.println("Recieved request to update/create profile: ");
         return userProfileService.manageProfile(userProfile);
     }
-
 }

@@ -2,6 +2,9 @@ package com.FuelQuote;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 
+import com.ProfileManagement.springboot.UserProfile;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -17,7 +20,10 @@ public class FuelQuote {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long quote_id;
+    private Long id;
+
+    @Column(name = "userId")
+    private Long userId;
 
     @Column(name = "gallons_requested")
     private float gallonsRequested;
@@ -34,23 +40,23 @@ public class FuelQuote {
     @Column(name = "total")
     private double totalPrice;
 
-    @ManyToOne(fetch = )
-    private 
+    @ManyToOne
+    private UserProfile userProfile;
     
-    public FuelQuote(Long quote_id_, float gallonsRequested_, String address_, LocalDate deliveryDate_, double pricePerGallon_) {
+    public FuelQuote(Long id_, float gallonsRequested_, String address_, LocalDate deliveryDate_, double pricePerGallon_) {
         DecimalFormat df = new DecimalFormat("#.##");
-        this.quote_id = quote_id_;
+        this.id = id_;
         this.gallonsRequested = gallonsRequested_;
         this.address = address_;
         this.deliveryDate = deliveryDate_;
         this.pricePerGallon = Double.parseDouble(df.format(pricePerGallon_));
         this.totalPrice = Double.parseDouble(df.format(gallonsRequested_*pricePerGallon_));
     }
-    public void setID(Long quote_id_) {
-        quote_id = quote_id_;
+    public void setID(Long  id_) {
+        id = id_;
     }
     public Long getID() {
-        return this.quote_id;
+        return this.id;
     }
     public void setGallonsRequested(float gallonsRequested_) {
         gallonsRequested = gallonsRequested_;
@@ -81,5 +87,8 @@ public class FuelQuote {
     }
     public double getTotalPrice() {
         return this.totalPrice;
+    }
+    public UserProfile getUserProfile() {
+        return this.userProfile;
     }
 }
