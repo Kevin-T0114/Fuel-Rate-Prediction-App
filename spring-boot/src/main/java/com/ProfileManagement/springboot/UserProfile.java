@@ -57,7 +57,6 @@ public class UserProfile {
 
     // Getters and setters
     public Long getID() {
-        // System.out.println("ID value " + id);
         return userId;
     }
 
@@ -97,6 +96,7 @@ public class UserProfile {
 
     public void setID(Long userId) {
         this.userId = userId;
+
     }
 
     public void setUsername(String username) {
@@ -130,5 +130,7 @@ public class UserProfile {
     public void setProfileCompleted(boolean profileCompleted) {
         this.profileCompleted = profileCompleted;
     }
+
+
 
 }

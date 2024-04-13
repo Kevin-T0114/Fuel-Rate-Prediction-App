@@ -1,45 +1,81 @@
 package com.ProfileManagement.springboot;
 
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
-@SpringBootTest
+import com.ProfileManagement.springboot.UserProfile;
+import com.ProfileManagement.springboot.UserProfileRepository;
+import com.ProfileManagement.springboot.UserProfileService;
+
 public class UserProfileServiceTest {
-	@Autowired
-	private UserProfileService userProfileService;
 
-	@Test
-	public void testUpdateProfile() {
-	UserProfile userProfile = new UserProfile();
-	userProfile.setFullName("John Wick");
-	userProfile.setAddress1("123 Main St");
-	userProfile.setAddress2("123 Main St");
-	userProfile.setCity("New York");
-	userProfile.setState("NY");
-	userProfile.setZipcode("10001");
-	userProfile.setProfileCompleted(false);
+    @Mock
+    private UserProfileRepository userProfileRepository;
+    @InjectMocks
+    private UserProfileService userProfileService;
 
-	UserProfile UpdatedUserProfile = new UserProfile();
-	UpdatedUserProfile.setFullName("John Wick");
-	UpdatedUserProfile.setAddress1("123 Main St");
-	UpdatedUserProfile.setAddress2("123 Main St");
-	UpdatedUserProfile.setCity("New York");
-	UpdatedUserProfile.setState("NY");
-	UpdatedUserProfile.setZipcode("10001");
-	UpdatedUserProfile.setProfileCompleted(false);
+    private AutoCloseable autoCloseable;
+    
 
-	UserProfile updatedProfile = userProfileService.updateProfile(userProfile, UpdatedUserProfile);
+    @BeforeEach
+    void setup(){
+        autoCloseable = MockitoAnnotations.openMocks(this);
+    }
 
-	assertEquals((userProfile), updatedProfile);
-	assertEquals("John Wick", userProfile.getFullName());
-	assertEquals("123 Main St", userProfile.getAddress1());
-	assertEquals("123 Main St", userProfile.getAddress2());
-	assertEquals("New York", userProfile.getCity());
-	assertEquals("NY", userProfile.getState());
-	assertEquals("10001", userProfile.getZipcode());
-	assertEquals(userProfile.isProfileCompleted(), false);
-	}
+    @AfterEach
+    void teardown() throws Exception{
+        autoCloseable.close();
+    }
 
+    @Test
+    void CanManageProfile(){
+        UserProfile existingProfile = new UserProfile();
+        existingProfile.setUsername("existingUser");
+        List<UserProfile> userProfileList = new ArrayList<>();
+        userProfileList.add(existingProfile);
+
+        when(userProfileRepository.findByUsername("existingUser")).thenReturn(userProfileList);
+        
+        UserProfile updatedProfile = new UserProfile();
+        updatedProfile.setUsername("existingUser");
+
+        UserProfile result = userProfileService.manageProfile(updatedProfile);
+
+        verify(userProfileRepository, times(2)).findByUsername("existingUser");
+        verify(userProfileRepository, times(2)).save(updatedProfile);
+
+        assert result != null;
+        assert result.getUsername().equals("existingUser");
+    }
+
+    @Test
+    void CanCreateProfile(){
+
+        UserProfile newProfile = new UserProfile();
+        newProfile.setUsername("newUser");
+    
+        when(userProfileRepository.findByUsername("newUser")).thenReturn(new ArrayList<>());
+
+        UserProfile result = userProfileService.manageProfile(newProfile);
+
+        verify(userProfileRepository, times(1)).findByUsername("newUser");
+        verify(userProfileRepository, times(1)).save(newProfile);
+        
+        assert result != null;
+        assert result.getUsername().equals("newUser");
+
+    }
+  
 }
