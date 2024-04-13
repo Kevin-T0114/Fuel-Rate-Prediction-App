@@ -52,7 +52,7 @@ public class FuelQuoteTest {
         Assertions.assertEquals(5, obj.getID());
     }
 
-    /* @Test
+    @Test
     public void testTotalPriceAfterChangingGallonsRequested() {
         FuelQuote obj = new FuelQuote(1L, 6, "12345 Address Ln", LocalDate.of(2003, 6, 5), 4.0);
         obj.setGallonsRequested(13);
@@ -66,7 +66,7 @@ public class FuelQuoteTest {
         obj.setPricePerGallon(13.12);
         obj.setTotalPrice(obj.getGallonsRequested(), obj.getPricePerGallon());
         Assertions.assertEquals(78.72, obj.getTotalPrice());
-    } */
+    }
 
     @Test
     public void testAddressAfterChange() {

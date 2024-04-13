@@ -70,7 +70,7 @@ public class UserProfile {
 
     // Getters and setters
     public Long getID() {
-        return userId;
+        return id;
 
     }
 
@@ -109,7 +109,7 @@ public class UserProfile {
     // Setters
 
     public void setID(Long id) {
-        this.userId = id;
+        this.id = id;
     }
 
     public void setUsername(String username) {

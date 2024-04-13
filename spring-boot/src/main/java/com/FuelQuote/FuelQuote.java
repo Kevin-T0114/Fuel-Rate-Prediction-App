@@ -82,7 +82,7 @@ public class FuelQuote {
     public double getPricePerGallon() {
         return this.pricePerGallon;
     }
-    public void setTotalPrice(int gallonsRequested_, double pricePerGallon_) {
+    public void setTotalPrice(float gallonsRequested_, double pricePerGallon_) {
         totalPrice = gallonsRequested_*pricePerGallon_;
     }
     public double getTotalPrice() {
