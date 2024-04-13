@@ -17,10 +17,7 @@ import jakarta.validation.constraints.Size;
 @Table(name = "user_profile")
 public class UserProfile {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_profile_seq")
-    @SequenceGenerator(name = "user_profile_seq", sequenceName = "user_profile_sequence", allocationSize = 1)
-    @Column(name = "user_id")
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_profile_seq")
     @SequenceGenerator(name = "user_profile_seq", sequenceName = "user_profile_sequence", allocationSize = 1)
@@ -94,8 +91,8 @@ public class UserProfile {
 
     // Setters
 
-    public void setID(Long userId) {
-        this.userId = userId;
+    public void setID(Long id) {
+        this.userId = id;
 
     }
 

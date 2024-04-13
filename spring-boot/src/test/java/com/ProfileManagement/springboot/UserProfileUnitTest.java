@@ -19,7 +19,8 @@ public class UserProfileUnitTest {
 	userProfile.setCity("New York");
 	userProfile.setState("NY");
 	userProfile.setZipcode("10001");
-	userProfile.setID(2);
+	Long i = (long) 2;
+	userProfile.setID(i);
 	userProfile.setUsername("Austin");
 	userProfile.setProfileCompleted(false);
 
@@ -30,7 +31,7 @@ public class UserProfileUnitTest {
 	UpdatedUserProfile.setCity("New York");
 	UpdatedUserProfile.setState("NY");
 	UpdatedUserProfile.setZipcode("10001");
-	UpdatedUserProfile.setID(2);
+	UpdatedUserProfile.setID(i);
 	UpdatedUserProfile.setUsername("Austin");
 	UpdatedUserProfile.setProfileCompleted(false);
 
