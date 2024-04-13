@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.validation.annotation.Validated;
 
+
 import com.FuelQuote.FuelQuote;
 import com.Registration.Registration;
 
@@ -27,6 +28,7 @@ import jakarta.validation.constraints.Size;
 @Table(name = "user_profile")
 public class UserProfile {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_profile_seq")
     @SequenceGenerator(name = "user_profile_seq", sequenceName = "user_profile_sequence", allocationSize = 1)
@@ -34,6 +36,7 @@ public class UserProfile {
 
     private Long id;
 
+    @NotBlank(message = "Username is required")
     @Column(name = "username")
     private String username;
 
@@ -60,14 +63,15 @@ public class UserProfile {
     private String zipcode;
     private boolean profileCompleted;
 
+
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "quote_id")
     private List<FuelQuote> fuelQuotes;
 
     // Getters and setters
     public Long getID() {
-    // System.out.println("ID value " + id);
-    return id;
+        return userId;
+
     }
 
     public String getUsername() {
@@ -102,11 +106,10 @@ public class UserProfile {
         return profileCompleted;
     }
 
-
     // Setters
 
     public void setID(Long id) {
-    this.id = id;
+        this.userId = id;
     }
 
     public void setUsername(String username) {
@@ -140,5 +143,7 @@ public class UserProfile {
     public void setProfileCompleted(boolean profileCompleted) {
         this.profileCompleted = profileCompleted;
     }
+
+
 
 }
