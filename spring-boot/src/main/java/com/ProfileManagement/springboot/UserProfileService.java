@@ -12,9 +12,7 @@ import java.util.Optional;
 public class UserProfileService {
 
     private static final Logger logger = LoggerFactory.getLogger(UserProfileService.class);
-    private final UserProfileRepository userProfileRepository;
-
-    private final UserProfileRepository userProfileRepository;
+    private UserProfileRepository userProfileRepository;
 
     @Autowired
     public UserProfileService(UserProfileRepository userProfileRepository) {
@@ -23,8 +21,7 @@ public class UserProfileService {
 
     public UserProfile manageProfile(UserProfile userProfile) {
         UserProfile P = new UserProfile();
-
-        if (!userProfileRepository.findAll().isEmpty()) {
+        if (userProfileRepository.findAll().isEmpty()) {
             UserProfile Dummy = createProfile(userProfile);
             List<UserProfile> ProList = userProfileRepository.findAll();
             P = ProList.get(0);
@@ -71,6 +68,24 @@ public class UserProfileService {
         } catch (Exception e) {
             logger.error("Error updating profile: {}", e.getMessage());
             return null;
+        }
+    }
+
+    public UserProfile getUserProfileById(Long ID) {
+        return userProfileRepository.findById((ID)).orElse(null);
+    }
+
+    public List<UserProfile> getAllUserProfiles() {
+
+        return userProfileRepository.findAll();
+    }
+
+    public void deleteUserProfile(Long ID) {
+        try {
+            userProfileRepository.deleteById(ID);
+            logger.info("Profile deleted: {}", ID);
+        } catch (Exception e) {
+            logger.error("Error deleting profile: {}", e.getMessage());
         }
     }
 
