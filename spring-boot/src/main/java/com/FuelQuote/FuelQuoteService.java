@@ -20,8 +20,7 @@ public class FuelQuoteService {
         this.fuelQuoteRepository = fuelQuoteRepository_;
     }
 
-    //temporary query
-    public List<FuelQuote> getQuotes() {
-        return fuelQuoteRepository.getAllQuotes();
-    }
+    /* public List<FuelQuote> getUser() {
+        return fuelQuoteRepository.getQuoteById();
+    } */
 }

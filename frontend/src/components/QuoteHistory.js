@@ -8,7 +8,7 @@ function CreateTable(userDetails){
     let month = today.getMonth() + 1;
     let year = today.getFullYear();
     let data = userDetails.userDetails.quotes
-    console.log(data)
+    console.log("data is", data)
     return(
         <table className='historyTable'>
             <caption>

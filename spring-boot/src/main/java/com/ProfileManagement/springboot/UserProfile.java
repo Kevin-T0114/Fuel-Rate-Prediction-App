@@ -1,9 +1,13 @@
 package com.ProfileManagement.springboot;
 
+import java.util.List;
+
 import org.springframework.validation.annotation.Validated;
 
+import com.FuelQuote.FuelQuote;
 import com.Registration.Registration;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,6 +15,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.MapsId;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
@@ -27,7 +32,7 @@ public class UserProfile {
     @SequenceGenerator(name = "user_profile_seq", sequenceName = "user_profile_sequence", allocationSize = 1)
     @Column(name = "user_id")
 
-    private Long userId;
+    private Long id;
 
     @Column(name = "username")
     private String username;
@@ -55,12 +60,14 @@ public class UserProfile {
     private String zipcode;
     private boolean profileCompleted;
 
-    
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "quote_id")
+    private List<FuelQuote> fuelQuotes;
 
     // Getters and setters
     public Long getID() {
     // System.out.println("ID value " + id);
-    return userId;
+    return id;
     }
 
     public String getUsername() {
@@ -98,8 +105,8 @@ public class UserProfile {
 
     // Setters
 
-    public void setID(Long userId) {
-    this.userId = userId;
+    public void setID(Long id) {
+    this.id = id;
     }
 
     public void setUsername(String username) {

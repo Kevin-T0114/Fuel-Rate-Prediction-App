@@ -1,11 +1,25 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+const user = sessionStorage.getItem("username");
+const userSend = {
+    User: String(user)
+}
+try {
+    axios.post('/api/form/user', userSend)
+        .then(res => {
+            console.log(res.data)
+        })
+} catch (error) {
+    console.error(error.response.data);
+}
 
 const QuoteForm = () => {
     let deliveryDate = "0-0-2000";
     let gallon;
     let suggestedPrice = 0;
     let amountDue = 0;
-    let deliveryAdress;
+    let deliveryAddress = "";
+    
     function GallonRequest() {
 
         return (
@@ -18,7 +32,19 @@ const QuoteForm = () => {
     }
 
     function DeliveryAddress() {
-        return (<label>Texas</label>);
+        const [address, setAddress] = useState();
+        const getData = async () => {
+            const { data } = await axios.get("/api/form/location");
+            setAddress(data);
+            deliveryAddress = data;
+        };
+        useEffect(() => {
+            getData();
+        }, []);
+
+        console.log(deliveryAddress);
+        //document.getElementById('element').innerHTML = deliveryAddress;
+        return (<label>{address} </label>);
         //imported from clients profile
     }
 
@@ -28,43 +54,74 @@ const QuoteForm = () => {
                 <label for="delivery">Enter Delivery Date: </label>
                 <input type="date" id="delivery" name="DeliveryDate" />
             </div>
-            
+
         );
     }
-
     function SuggestedPricePerGallon() {
         return (
             <label>$37.00</label>
         );
     }
-
     function FormRequest() {
+        const userSend = {
+            User: String(user)
+        }
+        try {
+            axios.post('/api/form/user', userSend)
+                .then(res => {
+                    console.log(res.data)
+                })
+        } catch (error) {
+            console.error(error.response.data);
+        }
+
         const [amount, setAmount] = useState('');
         const [suggest, setSuggest] = useState('');
+        const [price, setPrice] = useState();
+        const getData = async () => {
+            const { data } = await axios.get("/api/form/price");
+            setPrice(data);
+        };
+        useEffect(() => {
+            getData();
+        }, []);
         function handleSubmit(e) {
             // Prevent the browser from reloading the page
             e.preventDefault();
-
             // Read the form data
             const form = e.target;
             const formData = new FormData(form);
 
-            // You can pass formData as a fetch body directly:
-            fetch('/some-api', { method: form.method, body: formData });
-
             // Or you can work with it as a plain object:
             const formJson = Object.fromEntries(formData.entries());
             //console.log(formJson);
-            
+
             console.log(formJson.DeliveryDate);
             console.log(formJson.Gallons);
-            suggestedPrice = 37;
+            console.log(user);
+            suggestedPrice = price;
             gallon = formJson.Gallons;
-            deliveryAdress = "Texas";
             deliveryDate = formJson.DeliveryDate;
             amountDue = (gallon * suggestedPrice).toFixed(2);
             setSuggest(suggestedPrice);
             setAmount(amountDue);
+
+            const QuoteRec = {
+                Gallons: String(gallon),
+                Address: String(deliveryAddress),
+                Date: deliveryDate,
+                Price: String(suggestedPrice),
+                Due: String(amountDue),
+                User: String(user)
+            }
+            try {
+                axios.post('/api/form/result', QuoteRec)
+                    .then(res => {
+                        console.log(res.data)
+                    })
+            } catch (error) {
+                console.error(error.response.data);
+            }
         }
         return (
             <form method="post" onSubmit={handleSubmit}>
@@ -73,7 +130,7 @@ const QuoteForm = () => {
                 <DeliveryDate />
                 <p>Price Per Gallon: ${suggest}</p>
                 <p>Amount Due: ${amount}</p>
-                
+
                 <button type="reset">Reset Form</button>
                 <button type="submit">Calculate Price</button>
             </form>
@@ -90,14 +147,14 @@ const QuoteForm = () => {
         color: "white",
     };
     return (
-        <div className="quote" style={myStyle}>         
+        <div className="quote" style={myStyle}>
             <h1>
                 Quote Form
             </h1>
-            <FormRequest />            
-        </div> 
+            <FormRequest />
+        </div>
     );
+
 }
 
 export default QuoteForm;
-
