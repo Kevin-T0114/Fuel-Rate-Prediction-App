@@ -2,6 +2,8 @@ package com.FuelQuote;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 
+import javax.persistence.SequenceGenerators;
+
 import com.ProfileManagement.springboot.UserProfile;
 
 import jakarta.persistence.CascadeType;
@@ -13,6 +15,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.SequenceGenerator;
 
 @Entity
 @Table(name = "quote")

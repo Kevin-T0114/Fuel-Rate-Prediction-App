@@ -64,8 +64,7 @@ public class UserProfile {
     private boolean profileCompleted;
 
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "quote_id")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userProfile")
     private List<FuelQuote> fuelQuotes;
 
     // Getters and setters

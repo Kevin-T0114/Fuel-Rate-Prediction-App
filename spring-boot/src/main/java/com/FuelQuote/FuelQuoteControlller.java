@@ -1,11 +1,21 @@
 package com.FuelQuote;
 
 import org.springframework.web.bind.annotation.RestController;
+
+import com.google.gson.Gson;
+
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.GetMapping;
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
-@RequestMapping(path="api/quotes")
+@RequestMapping("api/quotes")
 public class FuelQuoteControlller {
     
     private final FuelQuoteService fuelQuoteService;
@@ -14,8 +24,18 @@ public class FuelQuoteControlller {
         this.fuelQuoteService = fuelQuoteService;
     }
 
-    @GetMapping
-    public FuelQuoteService getFuelQuoteHistory() {
-        return fuelQuoteService;
+    @PostMapping("/getQuotes")
+    public String getFuelQuoteHistory(@RequestBody Map<String, String> payload) {
+        Gson gson = new Gson();
+        String name = payload.get("User");
+        try {
+            List<FuelQuote> results = fuelQuoteService.getQuotes(name);
+            String json = gson.toJson(results);
+            return json;
+        }
+        catch (Exception e) {
+            System.out.println("unsuccessful");
+        }
+        return "";
     } 
 }
