@@ -13,6 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.SequenceGenerator;
 
 @Entity
 @Table(name = "quote")
@@ -40,8 +41,10 @@ public class FuelQuote {
     @Column(name = "total")
     private double totalPrice;
 
-    @ManyToOne
-    private UserProfile userProfile;
+    /* @ManyToOne
+    private UserProfile userProfile; */
+
+    public FuelQuote(){};
     
     public FuelQuote(Long id_, float gallonsRequested_, String address_, LocalDate deliveryDate_, double pricePerGallon_) {
         DecimalFormat df = new DecimalFormat("#.##");
@@ -77,18 +80,20 @@ public class FuelQuote {
         return this.deliveryDate;
     }
     public void setPricePerGallon(double pricePerGallon_) {
-        pricePerGallon = pricePerGallon_;
+        DecimalFormat df = new DecimalFormat("##.##");
+        pricePerGallon = Double.parseDouble(df.format(pricePerGallon_));
     }
     public double getPricePerGallon() {
         return this.pricePerGallon;
     }
     public void setTotalPrice(float gallonsRequested_, double pricePerGallon_) {
-        totalPrice = gallonsRequested_*pricePerGallon_;
+        DecimalFormat df = new DecimalFormat("##.##");
+        totalPrice = Double.parseDouble(df.format(gallonsRequested_*pricePerGallon_));
     }
     public double getTotalPrice() {
         return this.totalPrice;
     }
-    public UserProfile getUserProfile() {
+    /* public UserProfile getUserProfile() {
         return this.userProfile;
-    }
+    } */
 }

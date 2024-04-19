@@ -7,8 +7,9 @@ function CreateTable(userDetails){
     let date = today.getDate();
     let month = today.getMonth() + 1;
     let year = today.getFullYear();
-    let data = userDetails.userDetails.quotes
-    console.log("data is", data)
+    let data = userDetails.userDetails
+    console.log(userDetails.userDetails.quotes)
+
     return(
         <table className='historyTable'>
             <caption>
@@ -37,18 +38,19 @@ function CreateTable(userDetails){
     const [historyRequested, setRequest] = useState(false);
     const [error, setError] = useState(null)
     const [purchases, setPurchases] = useState([])
+    const user = sessionStorage.getItem("username");
 
     const connection = async(e) => {
         e.preventDefault()
-        const response = await fetch("/api/quotes")
+        const response = await fetch("/api/quotes/getQuotes?" + new URLSearchParams({User: user}))
         const json = await response.json()
         if (!response.ok) {
             setError(json.error)
-            console.log('unsuccessful connection')
         }
         if (response.ok){
             setPurchases(json)
             setRequest(true)
+            console.log(json)
         }
     }
 
