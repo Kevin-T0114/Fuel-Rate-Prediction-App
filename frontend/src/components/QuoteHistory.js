@@ -10,27 +10,37 @@ function CreateTable(userDetails){
     let data = userDetails.userDetails
     console.log(userDetails.userDetails.quotes)
 
-    return(
-        <table className='historyTable'>
-            <caption>
-                Client Fuel Quote History {month}/{date}/{year}
-            </caption>
-            <thead>
-                <tr>
-                    <th scope ='col'>Gallons Requested</th>
-                    <th scope ='col'>Delivery Address</th>
-                    <th scope ='col'>Delivery Date</th>
-                    <th scope ='col'>Suggested Price / gallon</th>
-                    <th scope ='col'>Total Amount Due</th>
-                </tr>
-            </thead>
-            <tbody>
-                {data.map((data) => (
-                    <Quote key={data.id} quote={data}/>
-                ))}
-            </tbody>
-        </table>
-    );
+    if (Object.keys(data) > 0){
+        return(
+            <table className='historyTable'>
+                <caption>
+                    Client Fuel Quote History {month}/{date}/{year}
+                </caption>
+                <thead>
+                    <tr>
+                        <th scope ='col'>Gallons Requested</th>
+                        <th scope ='col'>Delivery Address</th>
+                        <th scope ='col'>Delivery Date</th>
+                        <th scope ='col'>Suggested Price / gallon</th>
+                        <th scope ='col'>Total Amount Due</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {data.map((data) => (
+                        <Quote key={data.id} quote={data}/>
+                    ))}
+                </tbody>
+            </table>
+        );
+    }
+
+    else {
+        return (
+            <div className='noResults'>
+                <h2>No previous quotes for this user.</h2>
+            </div>
+        )
+    }
 }
 
  export default function QuoteHistory(userCredentials){
