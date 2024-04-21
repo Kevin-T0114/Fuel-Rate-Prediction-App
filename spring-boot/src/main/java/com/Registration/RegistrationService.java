@@ -58,14 +58,13 @@ public class RegistrationService { // figure out what to return
 
     public Boolean checkPassword(Registration registration) {
         Optional<Registration> reg = registrationRepository.findById(registration.getuserName());
-        // System.out.println(registration.getpassWord());
-        if (reg.isPresent()) {
-            Registration r = reg.get();
-            String encryptedPassword = encryptPassword(registration.getpassWord());
-            if (encryptedPassword.equals(r.getpassWord())) {
-                return true;
-            }
+        if (!reg.isPresent()) {
             return false;
+        }
+        Registration r = reg.get();
+        String encryptedPassword = encryptPassword(registration.getpassWord());
+        if (encryptedPassword.equals(r.getpassWord())) {
+            return true;
         }
         return false;
     }
