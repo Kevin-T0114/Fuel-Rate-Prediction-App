@@ -81,6 +81,4 @@ public class FuelQuoteTest {
         obj.setDeliveryDate(LocalDate.of(2010, 5, 6));
         Assertions.assertEquals(LocalDate.of(2010, 5, 6), obj.getDeliveryDate());
     }
-
-    
 }
