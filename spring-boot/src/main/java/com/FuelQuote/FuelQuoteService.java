@@ -5,23 +5,28 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 @Service
 public class FuelQuoteService {
+    
     private final FuelQuoteRepository fuelQuoteRepository;
-    /* private LocalDate date1 = LocalDate.of(2003, 6, 5);
-    private LocalDate date2 = LocalDate.of(2004, 8, 4);
-    private LocalDate date3 = LocalDate.of(2005, 3, 24);
-    private FuelQuote firstPurchase = new FuelQuote(1L, 6, "12345 Address Ln", date1, 4.0);
-    private FuelQuote secondPurchase = new FuelQuote(2L, 10, "12345 Address Ln", date2, 5.0);
-    private FuelQuote thirdPurchase = new FuelQuote(3L, 80, "12345 Address Ln", date3, 6.0); */
 
-    @Autowired    
-    public FuelQuoteService(FuelQuoteRepository fuelQuoteRepository_) {
-        this.fuelQuoteRepository = fuelQuoteRepository_;
+    @Autowired
+    public FuelQuoteService(FuelQuoteRepository fuelQuoteRepository) {
+        this.fuelQuoteRepository = fuelQuoteRepository;
+    }
+    
+    public Long getUserID(String user) {
+        return fuelQuoteRepository.findbyUsername(user);
     }
 
-    //temporary query
-    public List<FuelQuote> getQuotes() {
-        return fuelQuoteRepository.getAllQuotes();
+    public String getQuotes(Long id) {
+        Gson gson = new GsonBuilder().setPrettyPrinting().registerTypeAdapter(LocalDate.class, new LocalDateAdapter()).create();
+        List<FuelQuote> results = fuelQuoteRepository.findByUserID(id);
+        String json = gson.toJson(results);
+        return json;
+        
     }
 }

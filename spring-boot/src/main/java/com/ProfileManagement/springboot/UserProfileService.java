@@ -68,23 +68,4 @@ public class UserProfileService {
             return null;
         }
     }
-
-    public UserProfile getUserProfileById(Long ID) {
-        return userProfileRepository.findById((ID)).orElse(null);
-    }
-
-    public List<UserProfile> getAllUserProfiles() {
-
-        return userProfileRepository.findAll();
-    }
-
-    public void deleteUserProfile(Long ID) {
-        try {
-            userProfileRepository.deleteById(ID);
-            logger.info("Profile deleted: {}", ID);
-        } catch (Exception e) {
-            logger.error("Error deleting profile: {}", e.getMessage());
-        }
-    }
-
 }

@@ -55,6 +55,7 @@ public class UserProfileServiceTest {
 
         verify(userProfileRepository, times(2)).findByUsername("existingUser");
 
+
         assert result != null;
         assert result.getUsername().equals("existingUser");
     }
@@ -73,6 +74,5 @@ public class UserProfileServiceTest {
         verify(userProfileRepository, times(1)).save(newProfile);
         
         assert result != null;
-    }
   
 }

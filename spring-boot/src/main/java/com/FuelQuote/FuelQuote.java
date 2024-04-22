@@ -7,8 +7,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -17,7 +15,10 @@ public class FuelQuote {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long quote_id;
+    private Long id;
+
+    @Column(name = "userId")
+    private Long userId;
 
     @Column(name = "gallons_requested")
     private float gallonsRequested;
@@ -34,23 +35,22 @@ public class FuelQuote {
     @Column(name = "total")
     private double totalPrice;
 
-    @ManyToOne(fetch = )
-    private 
+    public FuelQuote(){};
     
-    public FuelQuote(Long quote_id_, float gallonsRequested_, String address_, LocalDate deliveryDate_, double pricePerGallon_) {
+    public FuelQuote(Long id_, float gallonsRequested_, String address_, LocalDate deliveryDate_, double pricePerGallon_) {
         DecimalFormat df = new DecimalFormat("#.##");
-        this.quote_id = quote_id_;
+        this.id = id_;
         this.gallonsRequested = gallonsRequested_;
         this.address = address_;
         this.deliveryDate = deliveryDate_;
         this.pricePerGallon = Double.parseDouble(df.format(pricePerGallon_));
         this.totalPrice = Double.parseDouble(df.format(gallonsRequested_*pricePerGallon_));
     }
-    public void setID(Long quote_id_) {
-        quote_id = quote_id_;
+    public void setID(Long  id_) {
+        id = id_;
     }
     public Long getID() {
-        return this.quote_id;
+        return this.id;
     }
     public void setGallonsRequested(float gallonsRequested_) {
         gallonsRequested = gallonsRequested_;
@@ -71,13 +71,15 @@ public class FuelQuote {
         return this.deliveryDate;
     }
     public void setPricePerGallon(double pricePerGallon_) {
-        pricePerGallon = pricePerGallon_;
+        DecimalFormat df = new DecimalFormat("##.##");
+        pricePerGallon = Double.parseDouble(df.format(pricePerGallon_));
     }
     public double getPricePerGallon() {
         return this.pricePerGallon;
     }
-    public void setTotalPrice(int gallonsRequested_, double pricePerGallon_) {
-        totalPrice = gallonsRequested_*pricePerGallon_;
+    public void setTotalPrice(float gallonsRequested_, double pricePerGallon_) {
+        DecimalFormat df = new DecimalFormat("##.##");
+        totalPrice = Double.parseDouble(df.format(gallonsRequested_*pricePerGallon_));
     }
     public double getTotalPrice() {
         return this.totalPrice;
