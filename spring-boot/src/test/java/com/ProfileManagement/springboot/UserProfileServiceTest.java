@@ -74,5 +74,6 @@ public class UserProfileServiceTest {
         verify(userProfileRepository, times(1)).save(newProfile);
         
         assert result != null;
+    }
   
 }
