@@ -8,9 +8,8 @@ function CreateTable(userDetails){
     let month = today.getMonth() + 1;
     let year = today.getFullYear();
     let data = userDetails.userDetails
-    console.log(userDetails.userDetails.quotes)
 
-    if (Object.keys(data) > 0){
+    if (Object.keys(data).length > 0){
         return(
             <table className='historyTable'>
                 <caption>
@@ -60,7 +59,7 @@ function CreateTable(userDetails){
         if (response.ok){
             setPurchases(json)
             setRequest(true)
-            console.log(json)
+            console.log("json is: ", json)
         }
     }
 
