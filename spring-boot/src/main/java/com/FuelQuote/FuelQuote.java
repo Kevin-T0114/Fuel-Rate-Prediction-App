@@ -1,4 +1,5 @@
 package com.FuelQuote;
+import java.sql.Date;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 
@@ -27,7 +28,7 @@ public class FuelQuote {
     private String address;
 
     @Column(name = "delivery_date")
-    private LocalDate deliveryDate;
+    private Date deliveryDate;
 
     @Column(name = "price_per_gallon")
     private double pricePerGallon;
@@ -37,7 +38,7 @@ public class FuelQuote {
 
     public FuelQuote(){};
     
-    public FuelQuote(Long id_, float gallonsRequested_, String address_, LocalDate deliveryDate_, double pricePerGallon_) {
+    public FuelQuote(Long id_, float gallonsRequested_, String address_, Date deliveryDate_, double pricePerGallon_) {
         DecimalFormat df = new DecimalFormat("#.##");
         this.id = id_;
         this.gallonsRequested = gallonsRequested_;
@@ -46,11 +47,18 @@ public class FuelQuote {
         this.pricePerGallon = Double.parseDouble(df.format(pricePerGallon_));
         this.totalPrice = Double.parseDouble(df.format(gallonsRequested_*pricePerGallon_));
     }
-    public void setID(Long  id_) {
+    
+    public void setID(Long id_) {
         id = id_;
     }
     public Long getID() {
         return this.id;
+    }
+    public void setUserID(Long userId_) {
+        userId = userId_;
+    }
+    public Long getUserID() {
+        return this.userId;
     }
     public void setGallonsRequested(float gallonsRequested_) {
         gallonsRequested = gallonsRequested_;
@@ -64,10 +72,10 @@ public class FuelQuote {
     public String getAddress() {
         return this.address;
     }
-    public void setDeliveryDate(LocalDate deliveryDate_) {
+    public void setDeliveryDate(Date deliveryDate_) {
         deliveryDate = deliveryDate_;
     }
-    public LocalDate getDeliveryDate() {
+    public Date getDeliveryDate() {
         return this.deliveryDate;
     }
     public void setPricePerGallon(double pricePerGallon_) {
@@ -83,5 +91,15 @@ public class FuelQuote {
     }
     public double getTotalPrice() {
         return this.totalPrice;
+    }
+    public String toString() {
+        return "Quote{" +
+                "id=" + id +
+                ", Gallons='" + gallonsRequested + '\'' +
+                ", Address='" + address + '\'' +
+                ", Date='" + deliveryDate + '\'' +
+                ", Price='" + pricePerGallon + '\'' +
+                ", Due='" + totalPrice + '\'' +
+                '}';
     }
 }

@@ -21,7 +21,10 @@ public interface FuelQuoteRepository extends JpaRepository<FuelQuote, Long>{
     @Query(value = "SELECT state FROM user_profile WHERE username = :username", nativeQuery = true)
     String findStateByUsername(@Param("username") String username);
 
-    @Modifying
-    @Query(value = "INSERT INTO quote (delivery_date, gallons_requested, price_per_gallon, total, address, user_id) VALUES (:delivery_date, :gallons_requested, :price_per_gallon, :total, :address, :user_id)", nativeQuery = true)
-    void quoteInsertion(@Param("delivery_date") Date delivery_date, @Param("gallons_requested") float gallons_requested, @Param("price_per_gallon") double price_per_gallon, @Param("total") double total, @Param("address") String address, @Param("user_id") Long user_id);
+    //@Modifying
+    //@Query(value = "INSERT INTO quote (delivery_date, gallons_requested, price_per_gallon, total, address, user_id) VALUES (:delivery_date, :gallons_requested, :price_per_gallon, :total, :address, :user_id)", nativeQuery = true)
+    //void quoteInsertion(@Param("delivery_date") Date delivery_date, @Param("gallons_requested") float gallons_requested, @Param("price_per_gallon") double price_per_gallon, @Param("total") double total, @Param("address") String address, @Param("user_id") Long user_id);
+
+    @Query(value = "SELECT address1 FROM user_profile WHERE username = :username", nativeQuery = true)
+    String findAddressByUsername(@Param("username") String username);
 }
