@@ -1,5 +1,6 @@
 package com.FuelQuote;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,10 +48,10 @@ public class FuelQuoteRepositoryTest {
         userProfile.setZipcode("77407");
         userProfileRepository.save(userProfile);
 
-        FuelQuote firstQuote = new FuelQuote(1L, 1.5F, "AL", LocalDate.of(2003, 6, 5), 37.0); 
+        FuelQuote firstQuote = new FuelQuote(1L, 1.5F, "AL", Date.valueOf("2003-06-07"), 37.0); 
         fuelQuoteRepository.save(firstQuote);
 
-        FuelQuote secondQuote = new FuelQuote(1L, 1.5F, "AL", LocalDate.of(2003, 6, 7), 37.0); 
+        FuelQuote secondQuote = new FuelQuote(1L, 1.5F, "AL", Date.valueOf("2003-06-05"), 37.0); 
         fuelQuoteRepository.save(secondQuote);
     }
 
@@ -72,8 +73,8 @@ public class FuelQuoteRepositoryTest {
         Long id = 1L;
         List<FuelQuote> expected = fuelQuoteRepository.findByUserID(id);
         List<FuelQuote> items = new ArrayList<>();
-        FuelQuote firstQuote = new FuelQuote(1L, 1.5F, "AL", LocalDate.of(2003, 6, 5), 37.0); 
-        FuelQuote secondQuote = new FuelQuote(1L, 1.5F, "AL", LocalDate.of(2003, 6, 7), 37.0); 
+        FuelQuote firstQuote = new FuelQuote(1L, 1.5F, "AL", Date.valueOf("2003-06-07"), 37.0); 
+        FuelQuote secondQuote = new FuelQuote(1L, 1.5F, "AL", Date.valueOf("2003-06-05"), 37.0); 
         items.add(firstQuote);
         items.add(secondQuote);
         Assertions.assertTrue(expected == items);

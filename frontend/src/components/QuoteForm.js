@@ -5,7 +5,7 @@ const userSend = {
     User: String(user)
 }
 try {
-    axios.post('/api/form/user', userSend)
+    axios.post('/api/quotes/user', userSend)
         .then(res => {
             console.log(res.data)
         })
@@ -34,7 +34,7 @@ const QuoteForm = () => {
     function DeliveryAddress() {
         const [address, setAddress] = useState();
         const getData = async () => {
-            const { data } = await axios.get("/api/form/location");
+            const { data } = await axios.get("/api/quotes/location");
             setAddress(data);
             deliveryAddress = data;
         };
@@ -67,7 +67,7 @@ const QuoteForm = () => {
             User: String(user)
         }
         try {
-            axios.post('/api/form/user', userSend)
+            axios.post('/api/quotes/user', userSend)
                 .then(res => {
                     console.log(res.data)
                 })
@@ -79,7 +79,7 @@ const QuoteForm = () => {
         const [suggest, setSuggest] = useState('');
         const [price, setPrice] = useState();
         const getData = async () => {
-            const { data } = await axios.get("/api/form/price");
+            const { data } = await axios.get("/api/quotes/price");
             setPrice(data);
         };
         useEffect(() => {
@@ -115,7 +115,7 @@ const QuoteForm = () => {
                 User: String(user)
             }
             try {
-                axios.post('/api/form/result', QuoteRec)
+                axios.post('/api/quotes/result', QuoteRec)
                     .then(res => {
                         console.log(res.data)
                     })
