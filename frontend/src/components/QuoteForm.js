@@ -15,11 +15,13 @@ try {
 
 const QuoteForm = () => {
     let deliveryDate = "0-0-2000";
-    let gallon;
+    let gallon = 0;
     let suggestedPrice = 0;
     let amountDue = 0;
     let deliveryAddress = "";
-    
+    let firstRender = 1;
+    var clicked = 1;
+
     function GallonRequest() {
 
         return (
@@ -38,9 +40,13 @@ const QuoteForm = () => {
             setAddress(data);
             deliveryAddress = data;
         };
-        useEffect(() => {
-            getData();
-        }, []);
+        try {
+            useEffect(() => {
+                getData();
+            }, []);
+        } catch (error) {
+            console.error(error.response.data);
+        }
 
         console.log(deliveryAddress);
         //document.getElementById('element').innerHTML = deliveryAddress;
@@ -52,7 +58,7 @@ const QuoteForm = () => {
         return (
             <div>
                 <label for="delivery">Enter Delivery Date: </label>
-                <input type="date" id="delivery" name="DeliveryDate" />
+                <input type="date" id="delivery" name="DeliveryDate"/>
             </div>
 
         );
@@ -61,6 +67,14 @@ const QuoteForm = () => {
         return (
             <label>$37.00</label>
         );
+    }
+
+    function clicking() {
+        console.log("helloooooo")
+        clicked = 1;
+    }
+    function unclicking() {
+        clicked = 0;
     }
     function FormRequest() {
         const userSend = {
@@ -77,14 +91,45 @@ const QuoteForm = () => {
 
         const [amount, setAmount] = useState('');
         const [suggest, setSuggest] = useState('');
-        const [price, setPrice] = useState();
-        const getData = async () => {
-            const { data } = await axios.get("/api/quotes/price");
-            setPrice(data);
-        };
-        useEffect(() => {
-            getData();
-        }, []);
+        //const [price, setPrice] = useState('');
+        //setPrice(0);
+        const userGallons = {
+            GallonsRequested: String(gallon)
+        }
+        //setSuggest(0);
+        //setAmount(0);
+        
+            try {
+                axios.post('/api/quotes/price', userGallons)
+                    .then(res => {
+                        while (firstRender > 0) {
+                            if (firstRender > 0) {
+                                setSuggest(res.data.toFixed(2));
+                            }
+                            amountDue = (gallon * suggest).toFixed(2);
+                            if (amountDue != 0) {
+                                setAmount(amountDue);
+                            }
+                            firstRender = firstRender - 1;
+                        }
+                    })
+
+                //setSuggest(suggestedPrice);
+
+                //console.log(price);
+            } catch (error) {
+                console.error(error.response.data);
+            }
+            
+        
+        /*
+        try {
+            getData(userGallon);
+        }  catch (error) {
+            console.error(error.response.data);
+        }
+        */
+        
         function handleSubmit(e) {
             // Prevent the browser from reloading the page
             e.preventDefault();
@@ -95,45 +140,76 @@ const QuoteForm = () => {
             // Or you can work with it as a plain object:
             const formJson = Object.fromEntries(formData.entries());
             //console.log(formJson);
-
-            console.log(formJson.DeliveryDate);
-            console.log(formJson.Gallons);
-            console.log(user);
-            suggestedPrice = price;
-            gallon = formJson.Gallons;
-            deliveryDate = formJson.DeliveryDate;
-            amountDue = (gallon * suggestedPrice).toFixed(2);
-            setSuggest(suggestedPrice);
-            setAmount(amountDue);
-
-            const QuoteRec = {
-                Gallons: String(gallon),
-                Address: String(deliveryAddress),
-                Date: deliveryDate,
-                Price: String(suggestedPrice),
-                Due: String(amountDue),
-                User: String(user)
+            //setPrice(0);
+            
+            //console.log(formJson.DeliveryDate);
+            //console.log(formJson.Gallons);
+            //console.log(user);
+            if (formJson.DeliveryDate !== "" && formJson.Gallons != 0) {
+                const userGallons = {
+                    GallonsRequested: String(formJson.Gallons)
+                }
+                let sug = 0;
+                const getData = async () => {
+                    try {
+                        await axios.post('/api/quotes/price', userGallons)
+                            .then(res => {
+                                sug = res.data;
+                            })
+                    } catch (error) {
+                        console.error(error.response.data);
+                    }
+                    setSuggest(sug.toFixed(2));
+                    amountDue = (gallon * suggest).toFixed(2);
+                    setAmount(amountDue);
+                    function setGallons() {
+                        gallon = formJson.Gallons;
+                        console.log(gallon);
+                    }
+                    setGallons();
+                    //suggestedPrice = price;
+                    deliveryDate = formJson.DeliveryDate;
+                    console.log(clicked);
+                    if (clicked == 1) {
+                        const QuoteRec = {
+                            Gallons: String(gallon),
+                            Address: String(deliveryAddress),
+                            Date: deliveryDate,
+                            Price: String(sug.toFixed(2)),
+                            Due: String(amountDue),
+                            User: String(user)
+                        }
+                        try {
+                            axios.post('/api/quotes/result', QuoteRec)
+                                .then(res => {
+                                    console.log(res.data)
+                                })
+                        } catch (error) {
+                            console.error(error.response.data);
+                        }
+                        //console.log(suggestedPrice);
+                    }
+                    firstRender = 3;
+                }
+                getData();
             }
-            try {
-                axios.post('/api/quotes/result', QuoteRec)
-                    .then(res => {
-                        console.log(res.data)
-                    })
-            } catch (error) {
-                console.error(error.response.data);
-            }
+            firstRender = 3;
         }
         return (
-            <form method="post" onSubmit={handleSubmit}>
-                <label>Address: <DeliveryAddress /><br /></label>
-                <GallonRequest />
-                <DeliveryDate />
-                <p>Price Per Gallon: ${suggest}</p>
-                <p>Amount Due: ${amount}</p>
+            <div>
+                <form method="post" onSubmit={handleSubmit}>
+                    <label>Address: <DeliveryAddress /><br /></label>
+                    <GallonRequest />
+                    <DeliveryDate />
+                    <p>Price Per Gallon: ${suggest}</p>
+                    <p>Amount Due: ${amount}</p>
 
-                <button type="reset">Reset Form</button>
-                <button type="submit">Calculate Price</button>
-            </form>
+                    <button type="reset">Reset Form</button>
+                    <button type="submit" onClick={clicking} value="1">Submit Quote</button>
+                    <button type="submit" onClick={unclicking} value="0">Get Quote</button>
+                </form>
+                
+            </div>
         );
     }
     const myStyle = {

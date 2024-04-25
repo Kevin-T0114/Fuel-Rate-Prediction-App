@@ -40,6 +40,16 @@ public class FuelQuoteService {
         return fuelQuoteRepository.findAddressByUsername(username);
     }
 
+    public boolean getHadPreviousQuotes(Long user_id) {
+        int numRows = fuelQuoteRepository.getNumQuoteRows(user_id);
+        //System.out.println(numRows);
+        if (numRows != 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     @Transactional
     public String addQuote(FuelQuote pricingModule) {
 
