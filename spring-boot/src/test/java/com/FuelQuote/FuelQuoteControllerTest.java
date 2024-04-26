@@ -2,6 +2,7 @@ package com.FuelQuote;
 
 import java.sql.Date;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -14,6 +15,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import com.ProfileManagement.springboot.UserProfile;
+import com.ProfileManagement.springboot.UserProfileRepository;
+import com.ProfileManagement.springboot.UserProfileService;
+import com.Registration.Registration;
+import com.Registration.RegistrationRepository;
+import com.Registration.RegistrationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @TestInstance(Lifecycle.PER_CLASS)
@@ -25,6 +32,12 @@ public class FuelQuoteControllerTest {
     
     @MockBean
     private FuelQuoteService fuelQuoteService;
+
+    @MockBean
+    private UserProfileService userProfileService;
+
+    @MockBean
+    private RegistrationService registrationService;
 
     @Test
     public void getFuelQuoteHistoryTest() throws Exception{
@@ -49,7 +62,8 @@ public class FuelQuoteControllerTest {
     public void getPriceTest() throws Exception {
         Object obj = new Object() {
             public final String GallonsRequested = "1.5";
-            public final String User = "aa";
+            public final String Location = "TX";
+            public final String User = "Dzyr";
         };
 
         ObjectMapper objectMapper = new ObjectMapper();
@@ -93,7 +107,5 @@ public class FuelQuoteControllerTest {
         .content(json))
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andReturn();
-            
     }
-
 }

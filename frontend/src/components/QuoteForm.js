@@ -88,10 +88,6 @@ function FormRequest() {
         const [amount, setAmount] = useState('');
         const [suggest, setSuggest] = useState('');
         const [, updateState] = useState();
-
-        const userGallons = {
-            GallonsRequested: String(gallon)
-        }
         
         while (firstRender > 0) {
             updateState();
@@ -111,7 +107,9 @@ function FormRequest() {
 
             if (formJson.DeliveryDate !== "" && formJson.Gallons != 0) {
                 const userGallons = {
-                    GallonsRequested: String(formJson.Gallons)
+                    GallonsRequested: String(formJson.Gallons),
+                    Location: String(address),
+                    User: String(user)
                 }
                 let sug = 0;
                 const getData = async () => {

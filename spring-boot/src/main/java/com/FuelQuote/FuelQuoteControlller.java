@@ -53,8 +53,10 @@ public class FuelQuoteControlller {
     @PostMapping("/price")
     public String makePrice(@RequestBody Map<String, String> payLoad) {
         float gallonsRequested = Float.parseFloat(payLoad.get("GallonsRequested"));
-        String location = fuelQuoteService.getState(user);
-        Long userID = fuelQuoteService.getUserID(user);
+        String locationString = payLoad.get("Location");
+        String userString = payLoad.get("User");
+
+        Long userID = fuelQuoteService.getUserID(userString);
         boolean previousUser = fuelQuoteService.getHadPreviousQuotes(userID);
         float price = 37;
         float RateHistoryFactor = 0;
@@ -69,17 +71,20 @@ public class FuelQuoteControlller {
         } else {
             LocationFactor = (float) 0.04;
         }
+
         float GallonsRequestedFactor = 0;
         if (gallonsRequested > 1000) {
             GallonsRequestedFactor = (float) 0.02;
         } else {
             GallonsRequestedFactor = (float) 0.03;
         }
+
         float CompanyProfitFactor = (float) 0.1;
         float CurrentPrice = (float) 1.50;
         float Margin = CurrentPrice
                 * (LocationFactor - RateHistoryFactor + GallonsRequestedFactor + CompanyProfitFactor);
         price = CurrentPrice + Margin;
+        System.out.println(price);
         return String.valueOf(price);
     }
 
