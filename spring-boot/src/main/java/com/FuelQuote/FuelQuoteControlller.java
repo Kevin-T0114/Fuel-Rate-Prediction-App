@@ -5,7 +5,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Date;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.Map;
 
@@ -49,6 +52,14 @@ public class FuelQuoteControlller {
         return (String) location;
     }
 
+    private static double round(double value, int places) {
+    if (places < 0) throw new IllegalArgumentException();
+
+    BigDecimal bd = new BigDecimal(Double.toString(value));
+    bd = bd.setScale(places, RoundingMode.HALF_UP);
+    return bd.doubleValue();
+}
+
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/price")
     public String makePrice(@RequestBody Map<String, String> payLoad) {
@@ -84,8 +95,11 @@ public class FuelQuoteControlller {
         float Margin = CurrentPrice
                 * (LocationFactor - RateHistoryFactor + GallonsRequestedFactor + CompanyProfitFactor);
         price = CurrentPrice + Margin;
-        System.out.println(price);
-        return String.valueOf(price);
+        double p = round((double) price, 3);
+        System.out.println(p);
+        String priceString = String.valueOf(p);
+        System.out.println(priceString);
+        return priceString;
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
@@ -104,6 +118,7 @@ public class FuelQuoteControlller {
         String address = fuelQuoteService.getAddress(user);
         Date date = Date.valueOf(payLoad.get("Date"));
         double ppg = Double.parseDouble(payLoad.get("Price"));
+        System.out.println("ppg is" + ppg);
         Long userID = fuelQuoteService.getUserID(user);
         FuelQuote pricingModule = new FuelQuote();
 
