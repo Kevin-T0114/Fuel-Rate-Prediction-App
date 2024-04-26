@@ -17,9 +17,10 @@ const QuoteForm = () => {
     let deliveryDate = "0-0-2000";
     let gallon = 0;
     let suggestedPrice = 0;
+    let amountPrice = 0;
     let amountDue = 0;
     let deliveryAddress = "";
-    let firstRender = 1;
+    let firstRender = 0;
     var clicked = 1;
 
     function GallonRequest() {
@@ -91,6 +92,7 @@ const QuoteForm = () => {
 
         const [amount, setAmount] = useState('');
         const [suggest, setSuggest] = useState('');
+        const [, updateState] = useState();
         //const [price, setPrice] = useState('');
         //setPrice(0);
         const userGallons = {
@@ -98,20 +100,17 @@ const QuoteForm = () => {
         }
         //setSuggest(0);
         //setAmount(0);
-        
+        /*
             try {
                 axios.post('/api/quotes/price', userGallons)
                     .then(res => {
-                        while (firstRender > 0) {
-                            if (firstRender > 0) {
+                        if (firstRender > 0) {
+                            flushSync(() => {
                                 setSuggest(res.data.toFixed(2));
-                            }
-                            amountDue = (gallon * suggest).toFixed(2);
-                            if (amountDue != 0) {
                                 setAmount(amountDue);
-                            }
-                            firstRender = firstRender - 1;
+                            });
                         }
+                        firstRender = firstRender - 1;
                     })
 
                 //setSuggest(suggestedPrice);
@@ -120,7 +119,7 @@ const QuoteForm = () => {
             } catch (error) {
                 console.error(error.response.data);
             }
-            
+        
         
         /*
         try {
@@ -129,7 +128,13 @@ const QuoteForm = () => {
             console.error(error.response.data);
         }
         */
-        
+        while (firstRender > 0) {
+            updateState();
+            //setAmount(amountDue);
+            console.log(suggest);
+            console.log(amount);
+            firstRender = firstRender - 1;
+        }
         function handleSubmit(e) {
             // Prevent the browser from reloading the page
             e.preventDefault();
@@ -159,14 +164,19 @@ const QuoteForm = () => {
                     } catch (error) {
                         console.error(error.response.data);
                     }
-                    setSuggest(sug.toFixed(2));
-                    amountDue = (gallon * suggest).toFixed(2);
-                    setAmount(amountDue);
+                    
                     function setGallons() {
                         gallon = formJson.Gallons;
                         console.log(gallon);
                     }
                     setGallons();
+                    suggestedPrice = sug.toFixed(2);
+                    amountDue = (gallon * sug.toFixed(2)).toFixed(2);
+                    amountPrice = amountDue;
+
+                    setSuggest(sug.toFixed(2));
+                    setAmount(amountPrice);
+                    
                     //suggestedPrice = price;
                     deliveryDate = formJson.DeliveryDate;
                     console.log(clicked);
@@ -184,16 +194,19 @@ const QuoteForm = () => {
                                 .then(res => {
                                     console.log(res.data)
                                 })
+                            alert("submission successful");
                         } catch (error) {
                             console.error(error.response.data);
+                            alert("submission error");
                         }
                         //console.log(suggestedPrice);
                     }
-                    firstRender = 3;
+                    firstRender = 4;
+                    
                 }
                 getData();
             }
-            firstRender = 3;
+            firstRender = 4;
         }
         return (
             <div>
