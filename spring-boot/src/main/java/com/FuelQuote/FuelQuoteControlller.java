@@ -66,7 +66,7 @@ public class FuelQuoteControlller {
             RateHistoryFactor = 0;
         }
         float LocationFactor = 0;
-        if (location.equals("TX")) {
+        if (locationString.equals("TX")) {
             LocationFactor = (float) 0.02;
         } else {
             LocationFactor = (float) 0.04;
