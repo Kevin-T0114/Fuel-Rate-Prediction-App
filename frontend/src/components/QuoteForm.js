@@ -127,11 +127,11 @@ function FormRequest() {
                         console.log(gallon);
                     }
                     setGallons();
-                    suggestedPrice = sug.toFixed(2);
-                    amountDue = (gallon * sug.toFixed(2)).toFixed(2);
+                    suggestedPrice = sug;
+                    amountDue = (gallon * sug).toFixed(2);
                     amountPrice = amountDue;
 
-                    setSuggest(sug.toFixed(2));
+                    setSuggest(sug.toFixed(3));
                     setAmount(amountPrice);
                     
                     deliveryDate = formJson.DeliveryDate;

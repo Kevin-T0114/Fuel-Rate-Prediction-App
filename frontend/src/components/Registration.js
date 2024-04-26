@@ -85,9 +85,9 @@ function RegisterForm(){
             <input className='registrationInput' type='text' placeholder='Username' value={userName} onChange={e => setUsername(e.target.value)} required/>
             <UserTaken takenUser={userDoesExist} submitted={submitPressed}/>
             <p className='pass'><b>Password</b></p> 
-            <input className='registrationInput' type='text' placeholder='Password' value={passWord} onChange={e => setPassword(e.target.value)} required/>
+            <input className='registrationInput' type='password' placeholder='Password' value={passWord} onChange={e => setPassword(e.target.value)} required/>
             <p className='rePass'><b>Re-enter Password</b></p> 
-            <input className='registrationInput' type='text' placeholder='Re-enter Password' value={vfyPassword} onChange={e => setVfyPassword(e.target.value)} required/>
+            <input className='registrationInput' type='password' placeholder='Re-enter Password' value={vfyPassword} onChange={e => setVfyPassword(e.target.value)} required/>
             <PasswordVerify takenUser={userDoesExist} matched={matchPass} submitted={submitPressed} />
             <button className='registrationButton' type='submit'>Register</button> 
             <a href='/Login' className='loginLink'>Return to Login</a>
