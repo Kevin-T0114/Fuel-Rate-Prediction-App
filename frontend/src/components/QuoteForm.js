@@ -28,7 +28,7 @@ function FormRequest() {
     const [address, setAddress] = useState();
 
     function SubmitQuoteButton(){
-        if(requestedGallons && dateOfDelivery){
+        if(requestedGallons != '' && dateOfDelivery != ''){
             return <button type="submit" onClick={clicking} value="1">Submit Quote</button>
         }
         else{
@@ -37,7 +37,7 @@ function FormRequest() {
     }
 
     function GetQuoteButton(){
-    if(requestedGallons && dateOfDelivery){
+    if(requestedGallons!= '' && dateOfDelivery != ''){
         return <button type="submit" onClick={unclicking} value="0">Get Quote</button>
     }
     else{
@@ -173,8 +173,10 @@ function FormRequest() {
             firstRender = 4;
         }
         function resetForm() {
-            document.getElementById("delivery").value = '';
-            document.getElementById("gallons").value = '';
+            setRequestedGallons('');
+            setDate('');
+            setSuggest('');
+            setAmount('');
         }
         return (
             <div>
@@ -192,7 +194,7 @@ function FormRequest() {
                     <p>Price Per Gallon: ${suggest}</p>
                     <p>Amount Due: ${amount}</p>
 
-                    <button type="reset" onClick={resetForm}>Reset Form</button>
+                    <button onClick={resetForm}>Reset Form</button>
                     <SubmitQuoteButton/>
                     <GetQuoteButton/>
                 </form>

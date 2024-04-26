@@ -8,7 +8,7 @@ const Navbar = () => {
             <a href="/login" className="login">Login</a>
             <a href="/registration" className="register">Register</a>
             <img src={home} className='home' onClick={() => window.open('/home', '_self')}></img>
-            <a href='/form' className='qForm'>Quote Form</a>
+            <a href='/form' className='qForm'>Make a Quote</a>
             <a href='/history' className='qHistory'>Quote History</a>
         </div>
     )
