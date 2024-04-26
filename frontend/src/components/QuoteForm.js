@@ -73,6 +73,7 @@ function FormRequest() {
     function unclicking() {
         clicked = 0;
     }
+    
         const userSend = {
             User: String(user)
         }
@@ -117,6 +118,7 @@ function FormRequest() {
                         await axios.post('/api/quotes/price', userGallons)
                             .then(res => {
                                 sug = res.data;
+                                console.log("res data is ", res.data)
                             })
                     } catch (error) {
                         console.error(error.response.data);
@@ -130,8 +132,14 @@ function FormRequest() {
                     suggestedPrice = sug;
                     amountDue = (gallon * sug).toFixed(2);
                     amountPrice = amountDue;
-
-                    setSuggest(sug.toFixed(3));
+                    var suggestedString = sug.toString()
+                    var numsAfterDecimal = suggestedString.length - suggestedString.indexOf(".") - 1
+                    if (numsAfterDecimal > 2) {
+                        setSuggest(sug.toFixed(3));
+                    }
+                    else {
+                        setSuggest(sug.toFixed(2));
+                    }
                     setAmount(amountPrice);
                     
                     deliveryDate = formJson.DeliveryDate;
@@ -141,10 +149,11 @@ function FormRequest() {
                             Gallons: String(gallon),
                             Address: String(deliveryAddress),
                             Date: deliveryDate,
-                            Price: String(sug.toFixed(2)),
+                            Price: String(sug),
                             Due: String(amountDue),
                             User: String(user)
                         }
+                        console.log(QuoteRec)
                         try {
                             axios.post('/api/quotes/result', QuoteRec)
                                 .then(res => {
@@ -163,6 +172,10 @@ function FormRequest() {
             }
             firstRender = 4;
         }
+        function resetForm() {
+            document.getElementById("delivery").value = '';
+            document.getElementById("gallons").value = '';
+        }
         return (
             <div>
                 <form method="post" onSubmit={handleSubmit}>
@@ -179,7 +192,7 @@ function FormRequest() {
                     <p>Price Per Gallon: ${suggest}</p>
                     <p>Amount Due: ${amount}</p>
 
-                    <button type="reset">Reset Form</button>
+                    <button type="reset" onClick={resetForm}>Reset Form</button>
                     <SubmitQuoteButton/>
                     <GetQuoteButton/>
                 </form>

@@ -5,7 +5,7 @@ const Quote = ({quote}) => {
         <td>{quote.address.toUpperCase()}</td>
         <td>{quote.gallonsRequested}</td>
         <td>${quote.pricePerGallon}</td>
-        <td>${quote.totalPrice}</td>
+        <td>${(quote.totalPrice).toFixed(2)}</td>
     </tr>
     )
 }

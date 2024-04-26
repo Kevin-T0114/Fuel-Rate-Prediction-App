@@ -79,7 +79,7 @@ public class FuelQuote {
         return this.deliveryDate;
     }
     public void setPricePerGallon(double pricePerGallon_) {
-        DecimalFormat df = new DecimalFormat("##.##");
+        DecimalFormat df = new DecimalFormat("##.###");
         pricePerGallon = Double.parseDouble(df.format(pricePerGallon_));
     }
     public double getPricePerGallon() {
