@@ -19,10 +19,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RestController
 @RequestMapping("api/quotes")
 public class FuelQuoteControlller {
-    
+
     private final FuelQuoteService fuelQuoteService;
     private String user;
-    
+
     @Autowired
     public FuelQuoteControlller(FuelQuoteService fuelQuoteService) {
         this.fuelQuoteService = fuelQuoteService;
@@ -30,14 +30,14 @@ public class FuelQuoteControlller {
 
     @GetMapping("/getQuotes")
     public String getFuelQuoteHistory(@RequestParam(name = "User") String user) {
-    Long id = fuelQuoteService.getUserID(user);
-    String json = fuelQuoteService.getQuotes(id);
-    return json;
-    } 
+        Long id = fuelQuoteService.getUserID(user);
+        String json = fuelQuoteService.getQuotes(id);
+        return json;
+    }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/user")
-    public String getUser(@RequestBody Map<String,String> payLoad) {
+    public String getUser(@RequestBody Map<String, String> payLoad) {
         user = payLoad.get("User");
         return ((String) payLoad.get("User"));
     }
@@ -51,33 +51,34 @@ public class FuelQuoteControlller {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/price")
-    public String makePrice(@RequestBody Map<String,String> payLoad) {
+    public String makePrice(@RequestBody Map<String, String> payLoad) {
         float gallonsRequested = Float.parseFloat(payLoad.get("GallonsRequested"));
         String location = fuelQuoteService.getState(user);
         Long userID = fuelQuoteService.getUserID(user);
         boolean previousUser = fuelQuoteService.getHadPreviousQuotes(userID);
         float price = 37;
         float RateHistoryFactor = 0;
-        if(previousUser) {
-            RateHistoryFactor = (float)0.01;
+        if (previousUser) {
+            RateHistoryFactor = (float) 0.01;
         } else {
             RateHistoryFactor = 0;
         }
         float LocationFactor = 0;
-        if (location == "TX") {
-			LocationFactor = (float)0.02;
-		} else {
-			LocationFactor = (float)0.04;
-		}
+        if (location.equals("TX")) {
+            LocationFactor = (float) 0.02;
+        } else {
+            LocationFactor = (float) 0.04;
+        }
         float GallonsRequestedFactor = 0;
         if (gallonsRequested > 1000) {
-            GallonsRequestedFactor = (float)0.02;
+            GallonsRequestedFactor = (float) 0.02;
         } else {
-            GallonsRequestedFactor = (float)0.03;
+            GallonsRequestedFactor = (float) 0.03;
         }
-        float CompanyProfitFactor = (float)0.1;
-        float CurrentPrice = (float)1.50;
-        float Margin =  CurrentPrice * (LocationFactor - RateHistoryFactor + GallonsRequestedFactor + CompanyProfitFactor);
+        float CompanyProfitFactor = (float) 0.1;
+        float CurrentPrice = (float) 1.50;
+        float Margin = CurrentPrice
+                * (LocationFactor - RateHistoryFactor + GallonsRequestedFactor + CompanyProfitFactor);
         price = CurrentPrice + Margin;
         return String.valueOf(price);
     }
@@ -85,12 +86,12 @@ public class FuelQuoteControlller {
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/result")
     public String getQuotes(@RequestBody Map<String, String> payLoad) {
-        
+
         if (((String) payLoad.get("Gallons")).equals("") || ((String) payLoad.get("Address")).equals("")
-				|| ((String) payLoad.get("Date")).equals("") || ((String) payLoad.get("Price")).equals("")
-				|| ((String) payLoad.get("Due")).equals("")) {
-			return "fields not filled";
-		}
+                || ((String) payLoad.get("Date")).equals("") || ((String) payLoad.get("Price")).equals("")
+                || ((String) payLoad.get("Due")).equals("")) {
+            return "fields not filled";
+        }
 
         String user = (String) payLoad.get("User");
         Long id = fuelQuoteService.getUserID(user);
@@ -100,14 +101,14 @@ public class FuelQuoteControlller {
         double ppg = Double.parseDouble(payLoad.get("Price"));
         Long userID = fuelQuoteService.getUserID(user);
         FuelQuote pricingModule = new FuelQuote();
-        
+
         pricingModule.setAddress(address);
         pricingModule.setDeliveryDate(date);
         pricingModule.setGallonsRequested(gallons);
         pricingModule.setPricePerGallon(ppg);
         pricingModule.setTotalPrice(gallons, ppg);
         pricingModule.setUserID(userID);
-        
+
         return fuelQuoteService.addQuote(pricingModule);
     }
 }
