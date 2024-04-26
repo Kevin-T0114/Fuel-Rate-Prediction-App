@@ -30,6 +30,11 @@ code {
   padding: .75em;
   color: white;
   float: right;
+  font-size: 1.1rem;
+}
+
+.navbar a:hover{
+  opacity: 50%;
 }
 
 .navbar span{
