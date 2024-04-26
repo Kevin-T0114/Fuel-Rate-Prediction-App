@@ -2,6 +2,7 @@ package com.FuelQuote;
 
 import java.sql.Date;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
@@ -46,8 +47,18 @@ public class FuelQuoteControllerTest {
 
     @Test
     public void getPriceTest() throws Exception {
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/quotes/price"))
-        .andExpect(MockMvcResultMatchers.status().isOk());
+        Object obj = new Object() {
+            public final String GallonsRequested = "1.5";
+            public final String User = "aa";
+        };
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String json = objectMapper.writeValueAsString(obj);
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/api/quotes/price")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(json))
+        .andExpect(MockMvcResultMatchers.status().isOk())
+        .andReturn();
     }
 
     @Test

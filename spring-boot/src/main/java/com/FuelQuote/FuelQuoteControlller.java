@@ -51,10 +51,8 @@ public class FuelQuoteControlller {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/price")
-    public float makePrice(@RequestBody Map<String,String> payLoad) {
+    public String makePrice(@RequestBody Map<String,String> payLoad) {
         float gallonsRequested = Float.parseFloat(payLoad.get("GallonsRequested"));
-        System.out.println(gallonsRequested);
-        //float gallonsRequested = 1982;
         String location = fuelQuoteService.getState(user);
         Long userID = fuelQuoteService.getUserID(user);
         boolean previousUser = fuelQuoteService.getHadPreviousQuotes(userID);
@@ -66,13 +64,12 @@ public class FuelQuoteControlller {
             RateHistoryFactor = 0;
         }
         float LocationFactor = 0;
-        if (location.equals("TX")) {
+        if (location == "TX") {
 			LocationFactor = (float)0.02;
 		} else {
 			LocationFactor = (float)0.04;
 		}
         float GallonsRequestedFactor = 0;
-        //System.out.println(gallonsRequested);
         if (gallonsRequested > 1000) {
             GallonsRequestedFactor = (float)0.02;
         } else {
@@ -82,7 +79,7 @@ public class FuelQuoteControlller {
         float CurrentPrice = (float)1.50;
         float Margin =  CurrentPrice * (LocationFactor - RateHistoryFactor + GallonsRequestedFactor + CompanyProfitFactor);
         price = CurrentPrice + Margin;
-        return price;
+        return String.valueOf(price);
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
