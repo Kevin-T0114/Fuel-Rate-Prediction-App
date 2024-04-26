@@ -17,9 +17,9 @@ function CreateTable(userDetails){
                 </caption>
                 <thead>
                     <tr>
-                        <th scope ='col'>Gallons Requested</th>
-                        <th scope ='col'>Delivery Address</th>
                         <th scope ='col'>Delivery Date</th>
+                        <th scope ='col'>Delivery Address</th>
+                        <th scope ='col'>Gallons Requested</th>
                         <th scope ='col'>Suggested Price / gallon</th>
                         <th scope ='col'>Total Amount Due</th>
                     </tr>
